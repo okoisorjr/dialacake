@@ -3,6 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import { Cakes } from 'src/app/pages/models/cakes';
 import { CakeService } from 'src/app/services/cake.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-new-cake',
@@ -36,12 +37,12 @@ export class NewCakeComponent implements OnInit {
     }); */
     this.newCake.owner_id;
     this.cakeService.addNewCake(this.newCake);
-    /* Swal.fire({
+    Swal.fire({
       title: 'Congratulations!',
       text: 'You have successfully added a new cake!',
       timer: 2000,
       icon: 'success',
-    }); */
+    });
     this.newCake = new Cakes();
     this.ngOnInit();
   }

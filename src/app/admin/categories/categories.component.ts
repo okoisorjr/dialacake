@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Cakes } from 'src/app/pages/models/cakes';
 import { CakeService } from 'src/app/services/cake.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-categories',
@@ -89,12 +90,12 @@ export class CategoriesComponent implements OnInit {
   async deleteCake() {
     this.submitted = true;
     let result = await this.cakeService.deleteCake(this.selectedCake_id);
-    /* Swal.fire({
+    Swal.fire({
       title: 'Congratulations!',
       text: 'You have successfully deleted a cake.',
       icon: 'success',
       timer: 2000,
-    }); */
+    });
     this.submitted = false;
     this.ngOnInit();
     this.modalService.dismissAll();
@@ -119,12 +120,12 @@ export class CategoriesComponent implements OnInit {
 
   async submit(editCakeForm: any) {
     let result = await this.cakeService.updateCake(this.selectedCake_id, this.editCake);
-    /* Swal.fire({
+    Swal.fire({
       title: 'Congratulations!',
       text: 'You have successfully updated a cake',
       timer: 2000,
       icon: 'success',
-    }); */
+    });
     this.ngOnInit();
     this.modalService.dismissAll();
   }

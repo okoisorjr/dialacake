@@ -50,7 +50,7 @@ export class CakeService {
     retrieved_cakes.forEach((document) => {
       cakes.push({ doc_id: document.id, ...document.data() });
     });
-    console.log(cakes);
+    //console.log(cakes);
     return cakes;
   }
 
@@ -62,7 +62,7 @@ export class CakeService {
     retrieved_cakes.forEach((document) => {
       cakes.push({ doc_id: document.id, ...document.data() });
     });
-    console.log(cakes);
+    //console.log(cakes);
     return cakes;
   }
 

@@ -20,6 +20,7 @@ import { User } from '../pages/models/user';
 })
 export class UserService {
   currentUser: User = new User();
+  user: any;
   currentUserCredentials: any;
   usersRef = collection(this.firestore, 'users');
   constructor(
@@ -35,6 +36,7 @@ export class UserService {
       user.password
     );
     if (result) {
+      this.user = result.user;
       this.currentUserCredentials =
         GoogleAuthProvider.credentialFromResult(result);
       this.currentUser.id = result.user.uid;
@@ -43,10 +45,7 @@ export class UserService {
       this.currentUser.verified = result.user.emailVerified;
       this.getUser();
     }
-    /* return this.http.post<User>(
-      `${environment.developmentIP}/yvette_baker/api/v1/auth/login`,
-      user
-    ); */
+    return this.auth.currentUser;
   }
 
   async getUser() {

@@ -23,7 +23,7 @@ import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 })
 export class OrderPageComponent implements OnInit {
 
-  @Input() selectedCake!: Cakes;
+  @Input() selectedCake!: any;
   @Output() sendPaymentStatus = new EventEmitter();
   @Output() dismissModal = new EventEmitter();
 
@@ -41,14 +41,13 @@ export class OrderPageComponent implements OnInit {
 
   // FLUTTERWAVE PAYMENT
   customerDetails = {
-    name: 'yvette baker',
-    email: 'customer@mail.com',
-    phone_number: '08100000000',
+    name: this.auth.currentUser?.displayName,
+    email: this.auth.currentUser?.email,
   };
 
   customizations: any;
 
-  meta = { counsumer_id: '7898', consumer_mac: 'kjs9s8ss7dd' };
+  meta = { counsumer_id: this.auth.currentUser?.uid, cake_ordered: this.selectedCake?.cakeName };
 
   constructor(
     private userService: UserService,
@@ -80,7 +79,6 @@ export class OrderPageComponent implements OnInit {
       this.new_order.cakeCategory = this.selectedCake.category;
       this.new_order.cakeImageURL = this.selectedCake.imageURL;
 
-      console.log(this.new_order);
       let result = await this.orderService.makeOrder(this.new_order);
       this.ngOnInit();
       this.modalService.dismissAll();
@@ -122,14 +120,14 @@ export class OrderPageComponent implements OnInit {
 
   async ngOnInit() {
     //console.log(this.selectedCake);
-
+    this.new_order.grandPrice = this.selectedCake.price;
     let user_detail = (
       await getDoc(doc(this.firestore, `users/${this.auth.currentUser?.uid}`))
     ).data();
     if (user_detail) {
       this.new_order.user_phone = user_detail['phone'];
     }
-    console.log(this.new_order);
+    console.log(this.customerDetails);
   }
 
   primarydecrement() {
@@ -158,8 +156,8 @@ export class OrderPageComponent implements OnInit {
       this.new_order.layers = layer;
       this.layer = 2;
       this.new_order.grandPrice =
-        this.selectedCake.price * this.layer * this.new_order.cakeCount;
-      console.log(this.new_order.grandPrice);
+        this.new_order.grandPrice * this.layer;
+      //console.log(this.new_order.grandPrice);
     } else if (layer == 'SINGLE' && this.new_order.layers == 'DOUBLE') {
       this.new_order.layers = layer;
       this.layer = 1;
