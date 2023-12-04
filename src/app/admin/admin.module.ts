@@ -8,13 +8,15 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { NewCakeComponent } from './new-cake/new-cake.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { UsersComponent } from './users/users.component';
 
 
 @NgModule({
   declarations: [
     NewCakeComponent,
     CategoriesComponent,
-    OrderHistoryComponent
+    OrderHistoryComponent,
+    UsersComponent
   ],
   imports: [
     CommonModule,
