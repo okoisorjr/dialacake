@@ -1,7 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LayoutComponent } from './app-layout/layout/layout.component';
+import { AdminLayoutComponent } from './app-layout/admin-layout/admin-layout.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'cakes',
+    pathMatch: 'full'
+  },
+  {
+    path: 'cakes',
+    component: LayoutComponent,
+    loadChildren: () =>
+      import('./pages/pages.module').then((m) => m.PagesModule),
+  },
+  {
+    path: 'admin',
+    component: AdminLayoutComponent,
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

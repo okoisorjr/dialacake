@@ -1,0 +1,83 @@
+<!-- <div class="row"> -->
+  <div
+  class="fixed top-0 left-0 z-40 w-64 h-screen bg-[#110101] transition-transform -translate-x-full sm:translate-x-0"
+  aria-label="Sidebar"
+>
+  <div>
+    <img
+      src="assets/images/logo.png"
+      width="152"
+      height="108"
+      class="mt-3 cursor-pointer"
+      alt="dial-a-cake logo"
+    />
+  </div>
+  <ul *ngFor="let item of menu">
+    <li>
+      <a
+        routerLink="/admin/{{ item.route }}"
+        class="no-underline text-yellow-500 text-xl"
+        ><i class="{{ item.icon }} text-2xl text-yellow-500 me-2"></i
+        >{{ item.title
+        }}<span
+          *ngIf="item.title === 'Orders'"
+          class="bg-[red] text-xl text-white text-center px-2 font-bold absolute left-50 rounded-lg"
+          >{{ ordersPendingCount }}</span
+        ></a
+      >
+    </li>
+  </ul>
+</div>
+<div class="p-4 sm:ml-64">
+  <div
+    class="py-2 flex flex-row items-center bg-[#FAFF00] justify-end sticky-top"
+  >
+    <div class="cursor-pointer" ngbDropdown>
+      <a
+        id="dropdownMenuLink"
+        data-bs-toggle="dropdown"
+        class="text-[#110101]"
+        aria-expanded="false"
+        ngbDropdownToggle
+      >
+        <i class="ri-user-6-fill text-2xl"></i>
+      </a>
+      <div
+        *ngIf="currentUser"
+        class="dropdown-menu dropdown-menu-end"
+        ngbDropdownMenu
+      >
+        <!-- item-->
+        <h6 class="dropdown-header">
+          {{ currentUser.displayName }}<br /><span
+            class="text-gray-500 text-sm font-semibold"
+            >{{ currentUser.email }}</span
+          >
+        </h6>
+        <div class="dropdown-divider"></div>
+        <div *ngIf="currentUser">
+          <a routerLink="/cakes" class="dropdown-item cursor-pointer"
+            ><i class="ri-home-7-line mr-2"></i>Home</a
+          >
+        </div>
+        <div class="dropdown-divider"></div>
+        <div *ngFor="let item of menu">
+          <a
+            class="dropdown-item gap-2 cursor-pointer text-[#110101] no-underline"
+            routerLink="/admin/{{ item.route }}"
+            ><i class="{{ item.icon }} mr-2"></i>{{ item.title }}</a
+          >
+        </div>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="logout()"
+          ><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+          <span class="align-middle" data-key="t-logout">Logout</span></a
+        >
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<!-- </div> -->

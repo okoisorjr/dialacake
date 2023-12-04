@@ -1,0 +1,127 @@
+<div class="container my-3">
+  <h3 class="text-xl font-bold text-[#110101]">Add Cake</h3>
+  <div class="my-2 card p-4">
+    <form
+      #cakeUploadForm="ngForm"
+      (ngSubmit)="submit(cakeUploadForm)"
+      enctype="multipart/form-data"
+    >
+      <div class="row">
+        <div class="my-2">
+          <label class="font-semibold mb-2" for="cakeName">Cake Name</label>
+          <input
+            type="text"
+            placeholder="Enter cake name"
+            class="form-control"
+            name="cakeName"
+            [(ngModel)]="newCake.cakeName"
+            ngModel
+          />
+        </div>
+
+        <div class="my-2">
+          <label class="font-semibold mb-2" for="description"
+            >Description</label
+          >
+          <textarea
+            placeholder="Describe the cake; e.g ingredients, health benefits..."
+            class="form-control"
+            name="description"
+            [(ngModel)]="newCake.description"
+            ngModel
+          ></textarea>
+        </div>
+
+        <div class="my-2">
+          <label class="font-semibold mb-2" for="">Price</label>
+          <div class="input-group">
+            <div class="input-group-text">₦</div>
+            <input
+              type="number"
+              class="form-control"
+              name="price"
+              placeholder="Enter the amount"
+              [(ngModel)]="newCake.price"
+              ngModel
+            />
+          </div>
+        </div>
+
+        <div class="my-2">
+          <label class="font-semibold mb-2" for="cakeName">Cake Category</label>
+          <select
+            name="category"
+            class="form-select"
+            [(ngModel)]="newCake.category"
+          >
+            <option disabled selected>CHOOSE A CATEGORY</option>
+            <option
+              *ngFor="let category of cakeCategories"
+              value="{{ category }}"
+            >
+              {{ category }}
+            </option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-between mt-2">
+          <div *ngIf="!uploading && !newCake.imageURL">
+            <input
+              type="file"
+              #file
+              hidden
+              class="form-control"
+              name="file"
+              type="file"
+              accept=".png, .jpg, .webp"
+              (change)="onFileSelected($event)"
+            />
+            <button
+              class="focus:outline-none bg-yellow-500 text-[#110101] hover:text-yellow-500 hover:bg-[#110101] font-semibold rounded-lg text-sm lg:text-lg px-4 py-2 me-2"
+              type="button"
+              (click)="file.click()"
+            >
+              <i class="ri-upload-2-fill me-2"></i>Upload Image
+            </button>
+          </div>
+          <div *ngIf="uploading">
+            <button
+              class="focus:outline-none bg-yellow-500 text-[#110101] hover:text-yellow-500 hover:bg-[#110101] font-semibold rounded-lg text-sm lg:text-lg px-4 py-2 me-2"
+              type="button"
+              disabled
+            >
+              <i class="ri-upload-2-fill me-2"></i>Uploading...
+            </button>
+          </div>
+          <div *ngIf="!uploading && newCake.imageURL" class="d-flex gap-2 pointer">
+            <img
+              src="{{ newCake.imageURL }}"
+              alt="uploaded-img"
+              width="100"
+              height="100"
+              class="rounded"
+              (click)="openImageModal(imageModal)"
+            />
+          </div>
+          <button
+            type="submit"
+            [disabled]="submitted"
+            class="focus:outline-none text-yellow-500 bg-[#110101] font-semibold rounded-lg text-sm lg:text-lg px-4 py-2 me-2"
+          >
+            <i class="ri-save-line me-2"></i>Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<ng-template #imageModal let-modal>
+  <div class="modal-body p-5" class="max-w-100">
+    <img
+      src="{{ newCake.imageURL }}"
+      alt=""
+      style="width: 100%; height: 100%; border-radius: 20px"
+    />
+  </div>
+</ng-template>

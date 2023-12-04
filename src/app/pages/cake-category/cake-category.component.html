@@ -1,0 +1,91 @@
+<!-- LARGE SCREEN DEVICES -->
+<div class="hidden lg:block container">
+  <div class="grid grid-cols-3 lg:grid-cols-4 gap-3 my-4 px-10">
+    <div class="col-span-3 lg:col-span-4">
+      <h4 class="title card-title fw-bold mb-3">
+        {{ category | titlecase }} [{{ cakes.length }}]
+      </h4>
+    </div>
+    <ng-container *ngFor="let cake of cakes">
+      <div class="flex flex-col justify-center col-span-1">
+        <div class="mb-2">
+          <img
+            src="{{ cake.imageURL }}"
+            alt=""
+            class="cursor-pointer w-[140px] md:w-[200px] lg:w-[200px] h-[70px] md:h-[180px] lg:h-[180px] rounded-3xl lg:rounded-3xl"
+            (click)="openOrderModal(cake, orderModal)"
+          />
+          <a
+            (click)="openOrderModal(cake, orderModal)"
+            title="{{ cake.cakeName }}"
+            class="text-sm lg:text-2xl leading-tight font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
+            >{{ cake.cakeName }}</a
+          >
+        </div>
+        <div>
+          <span
+            type="button"
+            (click)="openOrderModal(cake, orderModal)"
+            class="text-[10px] lg:text-sm text-[#FFF] bg-[#FF0000] rounded-3xl text-left lg:text-center font-semibold drop-shadow-lg px-1 lg:px-3 no-underline"
+          >
+            BUY NOW
+          </span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- MEDIUM AND SMALL SCREEN DEVICES -->
+<div class="block lg:hidden">
+  <div class="grid grid-cols-3 gap-3 my-4 px-2">
+    <div class="col-span-3 md:col-span-3">
+      <h4 class="title card-title fw-bold mb-3">
+        {{ category | titlecase }} [{{ cakes.length }}]
+      </h4>
+    </div>
+    <ng-container *ngFor="let cake of cakes">
+      <div class="flex flex-col justify-center col-span-1">
+        <div class="inline-block mb-2">
+          <img
+            src="{{ cake.imageURL }}"
+            alt=""
+            class="cursor-pointer w-[120px] md:w-[180px] h-[100px] md:h-[180px] rounded-lg"
+            (click)="openOrderModal(cake, orderModal)"
+          />
+        </div>
+        <div class="inline-block">
+          <a
+            (click)="openOrderModal(cake, orderModal)"
+            title="{{ cake.cakeName }}"
+            class="text-lg lg:text-2xl font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
+            >{{
+              cake.cakeName.length < 10
+                ? cake.cakeName
+                : cake.cakeName.substring(0, 7) + "..."
+            }}</a
+          ><br />
+          <span class="text-[#110101] text-xs font-bold"
+            >₦ {{ cake.price.toLocaleString() }}</span
+          >
+        </div>
+        <div>
+          <span
+            type="button"
+            (click)="openOrderModal(cake, orderModal)"
+            class="text-[10px] lg:text-sm text-[#FFF] bg-[#FF0000] rounded-3xl text-left lg:text-center font-semibold drop-shadow-lg px-1 lg:px-3 no-underline"
+          >
+            BUY NOW
+          </span>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #orderModal let-modal>
+  <app-order-page
+    [selectedCake]="selectedCake"
+    (dismissModal)="modal.close('Close click')"
+  ></app-order-page>
+</ng-template>

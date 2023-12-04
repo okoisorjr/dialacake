@@ -1,0 +1,273 @@
+<div class="container my-3">
+  <div class="grid grid-cols-2">
+    <div class="col-span-1">
+      <h3 class="text-lg lg:text-xl font-bold text-[#110101]">
+        {{ category | titlecase }} [{{ cakes.length }}]
+      </h3>
+    </div>
+    <div class="col-span-1">
+      <div
+        class="flex bg-[#FFF] text-[#000] rounded-md border border-black drop-shadow-md"
+      >
+        <input
+          type="text"
+          placeholder="SEARCH..."
+          [(ngModel)]="searchOrder"
+          name="search"
+          class="w-100 border-[#000] p-2 rounded-md outline-none text-xs lg:text-lg font-bold text-[#000]"
+        />
+        <span
+          (click)="filterOrders()"
+          class="flex bg-[#000] rounded-tr-md rounded-br-md items-center"
+          ><i
+            class="ri-search-line text-sm lg:text-2xl text-yellow-500 px-2"
+          ></i
+        ></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row my-3">
+    <div class="card px-3 rounded-2xl bg-[#FFF] h-[700px]">
+      <ngx-simplebar class="px-3 h-[480px]">
+        <ng-container *ngFor="let cake of cakes">
+          <div class="grid grid-cols-3 gap-3 items-center col-12">
+            <div
+              class="my-3 col-span-3 lg:col-span-1 w-[200px] h-[180px] rounded-3xl relative"
+              [ngStyle]="
+                cake.imageURL && {
+                  'background-image': ' url(' + cake.imageURL + ')',
+                  'background-size': 'cover'
+                }
+              "
+            >
+              <!-- <img
+                src="{{ cake.imageURL }}"
+                alt=""
+                class="w-[200px] h-[180px] rounded-3xl"
+              /> -->
+              <input
+                type="file"
+                #file
+                hidden
+                class="form-control"
+                name="file"
+                type="file"
+                accept=".png, .jpg, .webp"
+                (change)="onFileSelected($event)"
+              />
+              <div class="absolute left-0 right-0 bottom-0">
+                <button
+                  type="submit"
+                  [disabled]="submitted"
+                  (click)="file.click()"
+                  class="focus:outline-none text-yellow-500 bg-[#110101] bg-opacity-50 font-semibold w-100 text-sm lg:text-lg p-2 rounded-b-3xl me-2"
+                >
+                  <i class="ri-image-edit-line me-2"></i>Change
+                </button>
+              </div>
+            </div>
+            <div class="col-span-3 lg:col-span-1">
+              <h4 class="font-bold text-3xl text-[#110101]">
+                {{ cake.cakeName }}
+              </h4>
+              <p>
+                <span class="font-bold text-gray-500"
+                  >NGN {{ cake.price.toLocaleString() }} </span
+                ><br /><span class="text-sm text-black">{{
+                  cake.description.length > 200
+                    ? cake.description.substring(0, 200) + "..."
+                    : cake.description
+                }}</span>
+              </p>
+              <div class="flex flex-row gap-3 my-2">
+                <span
+                  class="cursor-pointer"
+                  title="EDIT CAKE"
+                  (click)="openEditModal(cake.doc_id, cake, editModal)"
+                  ><i class="ri-edit-box-line text-lg text-[#110101]"></i
+                ></span>
+                <span
+                  class="cursor-pointer"
+                  title="DELETE CAKE"
+                  (click)="openDeleteModal(cake.doc_id, deleteModal)"
+                  ><i class="ri-delete-bin-line text-lg text-[#110101]"></i
+                ></span>
+              </div>
+            </div>
+          </div>
+          <hr />
+        </ng-container>
+      </ngx-simplebar>
+    </div>
+  </div>
+</div>
+
+<ng-template #editModal let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title font-bold">Edit Cake</h3>
+    <button
+      type="button"
+      style="background-color: #f3db00"
+      class="btn btn-sm btn-icon"
+      data-bs-dismiss="modal"
+      (click)="modal.close('Close click')"
+    >
+      <i class="ri-close-line fs-5"></i>
+    </button>
+  </div>
+  <div class="px-5 modal-body">
+    <form
+      #editCakeForm="ngForm"
+      (ngSubmit)="submit(editCakeForm)"
+      enctype="multipart/form-data"
+    >
+      <div class="row">
+        <div class="my-2">
+          <label class="font-semibold mb-2" for="cakeName">Cake Name</label>
+          <input
+            type="text"
+            placeholder="Enter cake name"
+            class="form-control"
+            name="cakeName"
+            [(ngModel)]="editCake.cakeName"
+            ngModel
+          />
+        </div>
+
+        <div class="my-2">
+          <label class="font-semibold mb-2" for="description"
+            >Description</label
+          >
+          <textarea
+            placeholder="Describe the cake; e.g ingredients, health benefits..."
+            class="form-control"
+            name="description"
+            [(ngModel)]="editCake.description"
+            ngModel
+          ></textarea>
+        </div>
+
+        <div class="my-2">
+          <label class="font-semibold mb-2" for="">Price</label>
+          <div class="input-group">
+            <div class="input-group-text">₦</div>
+            <input
+              type="number"
+              class="form-control"
+              name="price"
+              placeholder="Enter the amount"
+              [(ngModel)]="editCake.price"
+              ngModel
+            />
+          </div>
+        </div>
+
+        <div class="my-2">
+          <label class="font-semibold mb-2" for="cakeName">Cake Category</label>
+          <select
+            name="category"
+            class="form-select"
+            [(ngModel)]="editCake.category"
+          >
+            <option disabled selected>CHOOSE A CATEGORY</option>
+            <option
+              *ngFor="let category of cakeCategories"
+              value="{{ category }}"
+            >
+              {{ category }}
+            </option>
+          </select>
+        </div>
+
+        <div class="flex items-center justify-between mt-2">
+          <!-- <div *ngIf="!uploading && this.newCake.imageURL == ''">
+            <input
+              type="file"
+              #file
+              hidden
+              class="form-control"
+              name="file"
+              type="file"
+              accept=".png, .jpg, .webp"
+              (change)="onFileSelected($event)"
+            />
+            <button
+              class="focus:outline-none bg-yellow-500 text-[#110101] hover:text-yellow-500 hover:bg-[#110101] font-semibold rounded-lg text-sm lg:text-lg px-4 py-2 me-2"
+              type="button"
+              (click)="file.click()"
+            >
+              <i class="ri-upload-2-fill me-2"></i>Upload Image
+            </button>
+          </div>
+          <div *ngIf="uploading">
+            <button
+              class="focus:outline-none bg-yellow-500 text-[#110101] hover:text-yellow-500 hover:bg-[#110101] font-semibold rounded-lg text-sm lg:text-lg px-4 py-2 me-2"
+              type="button"
+              disabled
+            >
+              <i class="ri-upload-2-fill me-2"></i>Uploading...
+            </button>
+          </div> -->
+          <!-- <div *ngIf="!uploading && newCake.imageURL" class="d-flex gap-2">
+            <img
+              src="{{ newCake.imageURL }}"
+              alt=""
+              width="100"
+              height="100"
+              class="rounded"
+              (click)="openImageModal(imageModal)"
+            />
+          </div> -->
+          <button
+            type="submit"
+            [disabled]="submitted"
+            class="focus:outline-none text-yellow-500 bg-[#110101] font-semibold rounded-lg text-sm lg:text-lg px-4 py-2 me-2"
+          >
+            <i class="ri-save-line me-2"></i>Save
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h3 class="modal-title font-bold">Confirm Action</h3>
+    <button
+      type="button"
+      style="background-color: #f3db00"
+      class="btn btn-sm btn-icon"
+      data-bs-dismiss="modal"
+      (click)="modal.close('Close click')"
+    >
+      <i class="ri-close-line fs-5"></i>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="text-sm lg:text-xl text-center">
+      Are you sure you want to delete this cake?<br /><span
+        >This action once confirmed cannot be reversed.</span
+      >
+    </p>
+  </div>
+  <div class="flex justify-center gap-2 mb-4 px-4">
+    <button
+      class="focus:outline-none bg-yellow-500 text-[#110101] font-semibold rounded-lg text-sm lg:text-lg px-4 py-2 me-2"
+      type="button"
+      (click)="modal.close('Close click')"
+    >
+      <i class="ri-close-fill me-2"></i>Cancel
+    </button>
+    <button
+      type="submit"
+      [disabled]="submitted"
+      (click)="deleteCake()"
+      class="focus:outline-none text-yellow-500 bg-[#110101] font-semibold rounded-lg text-sm lg:text-lg px-4 py-2 me-2"
+    >
+      <i class="ri-delete-bin-line me-2"></i
+      >{{ !submitted ? "Delete" : "Deleting..." }}
+    </button>
+  </div>
+</ng-template>

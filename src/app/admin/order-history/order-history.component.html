@@ -1,0 +1,89 @@
+<div class="container my-2">
+  <div class="row mb-2">
+    <div class="flex justify-between items-center">
+      <h3 class="text-xl font-bold text-[#110101]">Orders [{{ orders.length }}]</h3>
+      <div class="d-flex gap-2 mt-lg-0">
+        <select
+          class="form-select"
+          #filterOption
+          (change)="setFilterOption(filterOption.value)"
+        >
+          <option *ngFor="let option of filterOptions" value="{{ option }}">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="grid grid-cols-1 gap-2">
+    <ng-container *ngFor="let order of orders">
+      <div class="col-span-1">
+        <div class="bg-[#FFF] rounded-2xl h-[fit-content] grid grid-cols-4">
+          <div class="col-span-4 lg:col-span-1 my-3 lg:my-5">
+            <img
+              src="{{ order.cakeImageURL }}"
+              alt=""
+              class="rounded-lg w-[200px] h-[160px] mx-3"
+            />
+          </div>
+          <div class="col-span-4 lg:col-span-3 p-4">
+            <h4 class="font-bold text-xl lg:text-2xl text-[#110101]">
+              {{ order.cakeName }} - NGN
+              {{ order.chargedAmount?.toLocaleString() }}
+            </h4>
+            <p>
+              <span class="font-semibold text-gray-500">ORDER DETAILS </span
+              ><br />
+              Layer:
+              <span class="font-bold">{{ order.layers | titlecase }}</span> |
+              <span *ngIf="order.flavour"
+                >Flavour:
+                <span class="font-bold">{{ order.flavour }}</span></span
+              >
+              | Cakes:
+              <span class="font-bold">{{ order.cakeCount }}</span> | Birthday
+              Card:
+              <span class="font-bold">{{
+                order.birthdayCard ? "Yes" : "No"
+              }}</span>
+              | Wine:
+              <span class="font-bold">{{ order.wine ? "Yes" : "No" }}</span
+              ><br />
+              <span
+                >Category:
+                <span class="font-bold">{{ order.cakeCategory }}</span></span
+              >
+              <span *ngIf="order.specialMessage"
+                >Custom Message: <span>{{ order.specialMessage }}</span></span
+              >
+            </p>
+
+            <div>
+              <span class="font-semibold text-gray-500">CUSTOMER DETAILS </span
+              ><br />
+              <span class="text-sm"
+                >Name: <span class="text-sm">{{ order.user }}</span></span
+              >
+              |
+              <span class="text-sm"
+                >Email:
+                <span class="text-sm"
+                  ><a
+                    href="{{ 'mailto:' + order.user_email }}"
+                    class="no-underline text-[#110101]"
+                    >{{ order.user_email }}</a
+                  ></span
+                ></span
+              >
+              |
+              <span class="text-sm"
+                >Phone:
+                <span class="text-sm">{{ order.user_phone }}</span></span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

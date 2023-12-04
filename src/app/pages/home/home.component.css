@@ -1,0 +1,44 @@
+.input-step{
+  border: 1px solid #f3db00;
+  display: inline-flex;
+  overflow: visible;
+  height: 37.5px;
+  border-radius: 0.25rem;
+  background: #FFF;
+  padding: 4px;
+}
+
+a{
+  -webkit-text-stroke: 1px #FFF; 
+  -webkit-text-fill-color: #110101;
+}
+
+i{
+  -webkit-text-stroke: 1px yellow; 
+  -webkit-text-fill-color: #110101;
+}
+
+.input-step input{
+  width: 4em;
+  height: 100%;
+  text-align: center;
+  border: 0;
+  background: transparent;
+  border-radius: 0.25rem;
+}
+
+.input-step button{
+  width: 1.4em;
+  font-weight: 300;
+  height: 100%;
+  line-height: 0.1em;
+  padding: 0.2em !important;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.25rem;
+}
+
+.input-step.step-primary button{
+  background-color: #f3db00;
+  color: #FFF;
+}
