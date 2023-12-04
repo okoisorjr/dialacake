@@ -17,6 +17,7 @@ import {
   setDoc,
   serverTimestamp,
 } from '@angular/fire/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-topbar',
@@ -35,7 +36,7 @@ export class TopbarComponent implements OnInit {
   admins: any[] = [
     'Ak2Dzd3OQENa2UaOZZk4tZEkUXC2',
     'lIzjPKkP63a3BNUAv2oQcwDmmuv2',
-    'WX6l3krc81U44ZN0L8yfcTjIXXU2'
+    'WX6l3krc81U44ZN0L8yfcTjIXXU2',
   ];
 
   constructor(
@@ -43,12 +44,12 @@ export class TopbarComponent implements OnInit {
     private userService: UserService,
     private auth: Auth,
     private firestore: Firestore,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private router: Router
   ) {}
 
   async ngOnInit() {
     this.currentUser = this.auth.currentUser;
-    console.log(this.currentUser);
     this.myOrders = await this.orderService.retrieveAllClientsOrders();
     this.menu = [
       {
@@ -73,7 +74,7 @@ export class TopbarComponent implements OnInit {
       },
       /* { title: 'My Orders', route: 'my-orders', icon: 'ri-shopping-cart-fill' }, */
     ];
-    console.log(this.myOrders);
+    /* console.log(this.myOrders); */
   }
 
   toggleSideMenu() {
@@ -116,10 +117,14 @@ export class TopbarComponent implements OnInit {
       });
   }
 
-  login(loginForm: any) {
-    this.userService.loginUser(this.loginUser);
-    this.ngOnInit();
-    this.modalService.dismissAll();
+  async login(loginForm: any) {
+    let currentUser = await this.userService.loginUser(this.loginUser);
+    if (currentUser) {
+      this.ngOnInit();
+      this.loginUser = new Login();
+      this.modalService.dismissAll();
+    }
+
     /* this.userService.loginUser(this.loginUser).subscribe((value) => {
       console.log(value);
     }) */
@@ -128,5 +133,6 @@ export class TopbarComponent implements OnInit {
   async logout() {
     let result = await this.auth.signOut();
     this.ngOnInit();
+    this.router.navigate(['/cakes']);
   }
 }
