@@ -31,8 +31,16 @@ export class CakeCategoryComponent implements OnInit {
 
   async ngOnInit() {
     this.category = this.ar.snapshot.paramMap.get('category');
-    this.category = this.category.toUpperCase().replaceAll('-', ' ');
-    this.cakes = await this.cakeService.retrieveCategoryCakes(this.category);
+    //this.category = this.category.toUpperCase().replaceAll('-', ' ');
+    if (this.category == 'celebration-cakes') {
+      this.cakes = await this.cakeService.retrieveCelebrationCakes();
+    } else if (this.category == 'discounted-cakes') {
+      this.cakes = await this.cakeService.retrieveDiscountedCakes();
+    } else if (this.category == 'kiddies-cakes') {
+      this.cakes = await this.cakeService.retrieveKiddiesCakes();
+    } else if (this.category == 'plant-based-cakes') {
+      this.cakes = await this.cakeService.retrievePlantBasedCakes();
+    }
     /* this.cakeService.fetchCategoryCakes(this.category).subscribe((value) => {
       this.cakes = value;
     }); */

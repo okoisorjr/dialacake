@@ -8,10 +8,9 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.css']
+  styleUrls: ['./categories.component.css'],
 })
 export class CategoriesComponent implements OnInit {
-
   category: any;
   cakes: any[] = [];
   orders: any[] = [];
@@ -44,7 +43,15 @@ export class CategoriesComponent implements OnInit {
   async ngOnInit() {
     this.category = this.ar.snapshot.paramMap.get('category');
     this.category = this.category.toUpperCase().replaceAll('-', ' ');
-    this.cakes = await this.cakeService.retrieveCategoryCakes(this.category);
+    if (this.category == 'celebration-cakes') {
+      this.cakes = await this.cakeService.retrieveCelebrationCakes();
+    } else if (this.category == 'discounted-cakes') {
+      this.cakes = await this.cakeService.retrieveDiscountedCakes();
+    } else if (this.category == 'kiddies-cakes') {
+      this.cakes = await this.cakeService.retrieveKiddiesCakes();
+    } else if (this.category == 'plant-based-cakes') {
+      this.cakes = await this.cakeService.retrievePlantBasedCakes();
+    }
     /* this.cakeService.fetchCategoryCakes(this.category).subscribe((value) => {
       this.cakes = value;
     }); */
@@ -119,7 +126,10 @@ export class CategoriesComponent implements OnInit {
   }
 
   async submit(editCakeForm: any) {
-    let result = await this.cakeService.updateCake(this.selectedCake_id, this.editCake);
+    let result = await this.cakeService.updateCake(
+      this.selectedCake_id,
+      this.editCake
+    );
     Swal.fire({
       title: 'Congratulations!',
       text: 'You have successfully updated a cake',
@@ -129,5 +139,4 @@ export class CategoriesComponent implements OnInit {
     this.ngOnInit();
     this.modalService.dismissAll();
   }
-
 }

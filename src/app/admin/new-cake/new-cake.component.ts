@@ -3,7 +3,8 @@ import { Auth } from '@angular/fire/auth';
 import { Cakes } from 'src/app/pages/models/cakes';
 import { CakeService } from 'src/app/services/cake.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { DeliveryStatus } from 'src/app/shared/delivery-status';
 
 @Component({
   selector: 'app-new-cake',
@@ -36,7 +37,15 @@ export class NewCakeComponent implements OnInit {
       console.log(value);
     }); */
     this.newCake.owner_id;
-    this.cakeService.addNewCake(this.newCake);
+    if (this.newCake.category == 'CELEBRATION CAKES') {
+      this.cakeService.createCelebrationCake(this.newCake);
+    } else if (this.newCake.category == 'DISCOUNTED CAKES') {
+      this.cakeService.createDiscountedCake(this.newCake);
+    } else if (this.newCake.category == 'KIDDIES CAKES') {
+      this.cakeService.createKiddiesCake(this.newCake);
+    } else if (this.newCake.category == 'PLANT BASED CAKES') {
+      this.cakeService.createPlantBasedCake(this.newCake);
+    }
     Swal.fire({
       title: 'Congratulations!',
       text: 'You have successfully added a new cake!',

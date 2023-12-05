@@ -32,19 +32,12 @@ export class HomeComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.cakes = await this.cakeService.retrieveCakes();
-    //console.log(this.cakes);
-    this.cakes.map((cake: Cakes) => {
-      if (cake.category == 'CELEBRATION CAKES') {
-        this.celebrationCakes.push(cake);
-      } else if (cake.category == 'DISCOUNTED CAKES') {
-        this.discountedCakes.push(cake);
-      } else if (cake.category == 'KIDDIES CAKES') {
-        this.kiddiesCakes.push(cake);
-      } else {
-        this.plantBasedCakes.push(cake);
-      }
-    });
+    this.celebrationCakes = await this.cakeService.retrieveCelebrationCakes('home');
+    this.discountedCakes = await this.cakeService.retrieveDiscountedCakes();
+    this.plantBasedCakes = await this.cakeService.retrievePlantBasedCakes();
+    this.kiddiesCakes = await this.cakeService.retrieveKiddiesCakes('home');
+
+    this.cakes = [...this.kiddiesCakes, this.celebrationCakes, ...this.discountedCakes, ...this.plantBasedCakes];
     /* this.cakeService.fetchAllCakes().subscribe((value) => {
       value.map((cake) => {
         if (cake.category == 'DISCOUNTED CAKES') {
@@ -57,7 +50,7 @@ export class HomeComponent implements OnInit {
   }
 
   openOrderModal(cake: Cakes, orderModal: any) {
-    console.log(cake);
+    //console.log(cake);
     this.selectedCake = cake;
     this.modalService.open(orderModal, { centered: true, size: 'lg' });
   }
