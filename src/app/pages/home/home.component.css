@@ -18,6 +18,11 @@ i{
   -webkit-text-fill-color: #110101;
 }
 
+h3{
+  -webkit-text-stroke: 2px #110101; 
+  -webkit-text-fill-color: #FFFFFF;
+}
+
 .input-step input{
   width: 4em;
   height: 100%;

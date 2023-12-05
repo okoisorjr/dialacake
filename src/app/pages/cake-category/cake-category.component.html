@@ -7,18 +7,18 @@
       </h4>
     </div>
     <ng-container *ngFor="let cake of cakes">
-      <div class="flex flex-col justify-center col-span-1">
+      <div class="flex my-3 flex-col justify-center col-span-1">
         <div class="mb-2">
           <img
             src="{{ cake.imageURL }}"
-            alt=""
+            alt="{{cake.cakeName}}"
             class="cursor-pointer w-[200px] h-[180px] rounded-3xl lg:rounded-3xl"
             (click)="openOrderModal(cake, orderModal)"
           />
           <a
             (click)="openOrderModal(cake, orderModal)"
             title="{{ cake.cakeName }}"
-            class="text-sm lg:text-2xl leading-tight font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
+            class="text-2xl leading-tight font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
             >{{ cake.cakeName.length < 15
               ? cake.cakeName
               : cake.cakeName.substring(0, 16) + "..." }}</a
@@ -28,7 +28,7 @@
           <span
             type="button"
             (click)="openOrderModal(cake, orderModal)"
-            class="text-[10px] lg:text-sm text-[#FFF] bg-[#FF0000] rounded-3xl text-left lg:text-center font-semibold drop-shadow-lg px-1 lg:px-3 no-underline"
+            class="text-sm text-[#FFF] bg-[#FF0000] rounded-3xl text-center font-semibold drop-shadow-lg px-2 py-1 no-underline"
           >
             BUY NOW
           </span>
@@ -60,9 +60,9 @@
           <a
             (click)="openOrderModal(cake, orderModal)"
             title="{{ cake.cakeName }}"
-            class="text-lg lg:text-2xl font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
+            class="text-lg font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
             >{{
-              cake.cakeName.length < 10
+              cake.cakeName.length < 8
                 ? cake.cakeName
                 : cake.cakeName.substring(0, 7) + "..."
             }}</a
@@ -75,7 +75,7 @@
           <span
             type="button"
             (click)="openOrderModal(cake, orderModal)"
-            class="text-[10px] lg:text-sm text-[#FFF] bg-[#FF0000] rounded-3xl text-left lg:text-center font-semibold drop-shadow-lg px-1 lg:px-3 no-underline"
+            class="text-[10px] text-[#FFF] bg-[#FF0000] rounded-3xl text-left font-semibold drop-shadow-lg px-2 py-1 no-underline"
           >
             BUY NOW
           </span>
