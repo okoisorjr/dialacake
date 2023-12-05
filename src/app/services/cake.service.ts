@@ -12,6 +12,7 @@ import {
   where,
   getDocsFromServer,
   query,
+  limit,
 } from '@angular/fire/firestore';
 import { Cakes } from '../pages/models/cakes';
 import { environment } from 'src/environments/environment.prod';
@@ -20,7 +21,10 @@ import { environment } from 'src/environments/environment.prod';
   providedIn: 'root',
 })
 export class CakeService {
-  cakesRef = collection(this.firestore, 'cakes');
+  celebrationCakeRef = collection(this.firestore, 'celebration-cakes');
+  discountedCakeRef = collection(this.firestore, 'discounted-cakes');
+  kiddiesCakeRef = collection(this.firestore, 'kiddies-cakes');
+  platnBasedCakeRef = collection(this.firestore, 'plant-based-cakes');
 
   constructor(
     private http: HttpClient,
@@ -28,8 +32,9 @@ export class CakeService {
     private auth: Auth
   ) {}
 
-  addNewCake(new_cake: Cakes) {
-    addDoc(this.cakesRef, {
+  createCelebrationCake(new_cake: Cakes) {
+    
+    addDoc(this.celebrationCakeRef, {
       ...new_cake,
       document_owner: this.auth.currentUser?.uid,
     })
@@ -41,7 +46,111 @@ export class CakeService {
       });
   }
 
-  async retrieveCakes() {
+  createDiscountedCake(new_cake: Cakes) {
+    
+    addDoc(this.discountedCakeRef, {
+      ...new_cake,
+      document_owner: this.auth.currentUser?.uid,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  createKiddiesCake(new_cake: Cakes) {
+    
+    addDoc(this.kiddiesCakeRef, {
+      ...new_cake,
+      document_owner: this.auth.currentUser?.uid,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  createPlantBasedCake(new_cake: Cakes) {
+    
+    addDoc(this.platnBasedCakeRef, {
+      ...new_cake,
+      document_owner: this.auth.currentUser?.uid,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async retrieveCelebrationCakes(page?: string) {
+    let cakes: any[] = [];
+    let q: any;
+    // retrieve all cakes
+    if(page == 'home'){
+      q = query(this.celebrationCakeRef, limit(4));
+    }else{
+      q = query(this.celebrationCakeRef);
+    }
+    
+    let retrieved_cakes = await getDocsFromServer(q);
+    retrieved_cakes.forEach((document) => {
+      cakes.push({ doc_id: document.id, ...document });
+    });
+    console.log(cakes);
+    return cakes;
+  }
+
+  async retrieveDiscountedCakes() {
+    let cakes: any[] = [];
+
+    // retrieve all cakes
+    const q = query(this.discountedCakeRef);
+    let retrieved_cakes = await getDocsFromServer(q);
+    retrieved_cakes.forEach((document) => {
+      cakes.push({ doc_id: document.id, ...document.data() });
+    });
+    //console.log(cakes);
+    return cakes;
+  }
+
+  async retrieveKiddiesCakes(page?: string) {
+    let cakes: any[] = [];
+    let q;
+    // retrieve all cakes
+    if(page == 'home'){
+      q = query(this.kiddiesCakeRef, limit(4));
+    }else{
+      q = query(this.kiddiesCakeRef);
+    }
+    
+    let retrieved_cakes = await getDocsFromServer(q);
+    retrieved_cakes.forEach((document) => {
+      cakes.push({ doc_id: document.id, ...document.data() });
+    });
+    console.log(cakes);
+    return cakes;
+  }
+
+  async retrievePlantBasedCakes() {
+    let cakes: any[] = [];
+
+    // retrieve all cakes
+    const q = query(this.platnBasedCakeRef);
+    let retrieved_cakes = await getDocsFromServer(q);
+    retrieved_cakes.forEach((document) => {
+      cakes.push({ doc_id: document.id, ...document.data() });
+    });
+    //console.log(cakes);
+    return cakes;
+  }
+
+  /* async retrieveCakes() {
     let cakes: any[] = [];
 
     // retrieve all cakes
@@ -52,19 +161,7 @@ export class CakeService {
     });
     //console.log(cakes);
     return cakes;
-  }
-
-  async retrieveCategoryCakes(category: string) {
-    let cakes: any[] = [];
-    // retrieve cakes based on category
-    const q = query(this.cakesRef, where('category', '==', category));
-    let retrieved_cakes = await getDocsFromServer(q);
-    retrieved_cakes.forEach((document) => {
-      cakes.push({ doc_id: document.id, ...document.data() });
-    });
-    //console.log(cakes);
-    return cakes;
-  }
+  } */
 
   async deleteCake(doc_id: string) {
     const cakeRef = doc(this.firestore, `cakes/${doc_id}`);
