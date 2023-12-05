@@ -1,7 +1,9 @@
 <div class="container my-2">
   <div class="row mb-2">
     <div class="flex justify-between items-center">
-      <h3 class="text-xl font-bold text-[#110101]">Orders [{{ orders.length }}]</h3>
+      <h3 class="text-xl font-bold text-[#110101]">
+        Orders [{{ orders.length }}]
+      </h3>
       <div class="d-flex gap-2 mt-lg-0">
         <select
           class="form-select"
@@ -16,74 +18,107 @@
     </div>
   </div>
   <div class="grid grid-cols-1 gap-2">
-    <ng-container *ngFor="let order of orders">
-      <div class="col-span-1">
-        <div class="bg-[#FFF] rounded-2xl h-[fit-content] grid grid-cols-4">
-          <div class="col-span-4 lg:col-span-1 my-3 lg:my-5">
-            <img
-              src="{{ order.cakeImageURL }}"
-              alt=""
-              class="rounded-lg w-[200px] h-[160px] mx-3"
-            />
-          </div>
-          <div class="col-span-4 lg:col-span-3 p-4">
-            <h4 class="font-bold text-xl lg:text-2xl text-[#110101]">
-              {{ order.cakeName }} - NGN
-              {{ order.chargedAmount?.toLocaleString() }}
-            </h4>
-            <p>
-              <span class="font-semibold text-gray-500">ORDER DETAILS </span
-              ><br />
-              Layer:
-              <span class="font-bold">{{ order.layers | titlecase }}</span> |
-              <span *ngIf="order.flavour"
-                >Flavour:
-                <span class="font-bold">{{ order.flavour }}</span></span
-              >
-              | Cakes:
-              <span class="font-bold">{{ order.cakeCount }}</span> | Birthday
-              Card:
-              <span class="font-bold">{{
-                order.birthdayCard ? "Yes" : "No"
-              }}</span>
-              | Wine:
-              <span class="font-bold">{{ order.wine ? "Yes" : "No" }}</span
-              ><br />
-              <span
-                >Category:
-                <span class="font-bold">{{ order.cakeCategory }}</span></span
-              >
-              <span *ngIf="order.specialMessage"
-                >Custom Message: <span>{{ order.specialMessage }}</span></span
-              >
-            </p>
+    <div *ngIf="orders && orders.length > 0">
+      <ng-container *ngFor="let order of orders">
+        <div class="col-span-1">
+          <div class="bg-[#FFF] rounded-2xl h-[fit-content] grid grid-cols-4">
+            <div class="col-span-4 lg:col-span-1 my-3 lg:my-5">
+              <img
+                src="{{ order.cakeImageURL }}"
+                alt=""
+                class="rounded-lg w-[200px] h-[160px] mx-3"
+              />
+            </div>
+            <div class="col-span-4 lg:col-span-3 p-4">
+              <h4 class="font-bold text-xl lg:text-2xl text-[#110101]">
+                {{ order.cakeName }} - NGN
+                {{ order.chargedAmount?.toLocaleString() }}
+              </h4>
+              <p>
+                <span class="font-semibold text-gray-500">ORDER DETAILS </span
+                ><br />
+                Layer:
+                <span class="font-bold">{{ order.layers | titlecase }}</span> |
+                <span *ngIf="order.flavour"
+                  >Flavour:
+                  <span class="font-bold">{{ order.flavour }}</span></span
+                >
+                | Cakes:
+                <span class="font-bold">{{ order.cakeCount }}</span> | Birthday
+                Card:
+                <span class="font-bold">{{
+                  order.birthdayCard ? "Yes" : "No"
+                }}</span>
+                | Wine:
+                <span class="font-bold">{{ order.wine ? "Yes" : "No" }}</span
+                ><br />
+                <span
+                  >Category:
+                  <span class="font-bold">{{ order.cakeCategory }}</span></span
+                >
+                <span *ngIf="order.specialMessage"
+                  >Custom Message: <span>{{ order.specialMessage }}</span></span
+                >
+              </p>
 
-            <div>
-              <span class="font-semibold text-gray-500">CUSTOMER DETAILS </span
-              ><br />
-              <span class="text-sm"
-                >Name: <span class="text-sm">{{ order.user }}</span></span
-              >
-              |
-              <span class="text-sm"
-                >Email:
+              <div>
+                <span class="font-semibold text-gray-500"
+                  >CUSTOMER DETAILS </span
+                ><br />
                 <span class="text-sm"
-                  ><a
-                    href="{{ 'mailto:' + order.user_email }}"
-                    class="no-underline text-[#110101]"
-                    >{{ order.user_email }}</a
+                  >Name: <span class="text-sm">{{ order.user }}</span></span
+                >
+                |
+                <span class="text-sm"
+                  >Email:
+                  <span class="text-sm"
+                    ><a
+                      href="{{ 'mailto:' + order.user_email }}"
+                      class="no-underline text-[#110101]"
+                      >{{ order.user_email }}</a
+                    ></span
                   ></span
-                ></span
-              >
-              |
-              <span class="text-sm"
-                >Phone:
-                <span class="text-sm">{{ order.user_phone }}</span></span
-              >
+                >
+                |
+                <span class="text-sm"
+                  >Phone:
+                  <span class="text-sm">{{ order.user_phone }}</span></span
+                >
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
+    </div>
+    <div
+      *ngIf="orders.length == 0"
+      class="flex flex-col items-center justify-center my-5"
+    >
+      <svg
+        fill="#110101"
+        version="1.1"
+        id="Capa_1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        width="200px"
+        height="200px"
+        viewBox="0 0 902.86 902.86"
+        xml:space="preserve"
+      >
+        <g>
+          <g>
+            <path
+              d="M671.504,577.829l110.485-432.609H902.86v-68H729.174L703.128,179.2L0,178.697l74.753,399.129h596.751V577.829z     M685.766,247.188l-67.077,262.64H131.199L81.928,246.756L685.766,247.188z"
+            />
+            <path
+              d="M578.418,825.641c59.961,0,108.743-48.783,108.743-108.744s-48.782-108.742-108.743-108.742H168.717    c-59.961,0-108.744,48.781-108.744,108.742s48.782,108.744,108.744,108.744c59.962,0,108.743-48.783,108.743-108.744    c0-14.4-2.821-28.152-7.927-40.742h208.069c-5.107,12.59-7.928,26.342-7.928,40.742    C469.675,776.858,518.457,825.641,578.418,825.641z M209.46,716.897c0,22.467-18.277,40.744-40.743,40.744    c-22.466,0-40.744-18.277-40.744-40.744c0-22.465,18.277-40.742,40.744-40.742C191.183,676.155,209.46,694.432,209.46,716.897z     M619.162,716.897c0,22.467-18.277,40.744-40.743,40.744s-40.743-18.277-40.743-40.744c0-22.465,18.277-40.742,40.743-40.742    S619.162,694.432,619.162,716.897z"
+            />
+          </g>
+        </g>
+      </svg>
+      <p class="text-3xl text-center font-bold text-[#110101] font-mono">
+        There are currently no new orders!
+      </p>
+    </div>
   </div>
 </div>

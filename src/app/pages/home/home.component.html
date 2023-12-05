@@ -13,11 +13,7 @@
       <div class="col-span-3 lg:col-span-4">
         <h4 class="title card-title fw-bold mb-2">Discounted Cakes</h4>
       </div>
-      <ng-container
-        *ngFor="
-          let cake of discountedCakes | slice : discountedCakes.length - 4
-        "
-      >
+      <ng-container *ngFor="let cake of discountedCakes">
         <div class="flex flex-col justify-center col-span-1">
           <div class="inline-block mb-2">
             <img
@@ -259,7 +255,7 @@
           <div class="inline-block mb-2">
             <img
               src="{{ cake.imageURL }}"
-              alt="{{cake.cakeName}}"
+              alt="{{ cake.cakeName }}"
               class="cursor-pointer w-[200px] h-[100px] rounded-lg"
               (click)="openOrderModal(cake, orderModal)"
             />
@@ -318,7 +314,7 @@
           <div class="mb-2">
             <img
               src="{{ cake.imageURL }}"
-              alt="{{cake.cakeName}}"
+              alt="{{ cake.cakeName }}"
               class="cursor-pointer w-[200px] h-[100px] rounded-lg lg:rounded-3xl"
               (click)="openOrderModal(cake, orderModal)"
             />
@@ -375,7 +371,7 @@
           <div class="inline-block mb-2">
             <img
               src="{{ cake.imageURL }}"
-              alt="{{cake.cakeName}}"
+              alt="{{ cake.cakeName }}"
               class="cursor-pointer w-[200px] h-[100px] rounded-lg"
               (click)="openOrderModal(cake, orderModal)"
             />
@@ -434,7 +430,7 @@
           <div class="inline-block mb-2">
             <img
               src="{{ cake.imageURL }}"
-              alt="{{cake.cakeName}}"
+              alt="{{ cake.cakeName }}"
               class="cursor-pointer w-[200px] h-[100px] rounded-lg"
               (click)="openOrderModal(cake, orderModal)"
             />
@@ -476,6 +472,49 @@
           ></i>
         </button>
       </div>
+    </div>
+  </div>
+
+  <div class="border-b-2 border-gray-500">
+    <div class="my-5">
+      <h3 class="text-[#FFF] text-center font-bold text-4xl">
+        REVIEWS ABOUT US
+      </h3>
+    </div>
+
+    <div
+      class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 lg:gap-3 sm:gap-5 gap-4 mb-3"
+    >
+      <div
+        *ngFor="let feedback of feedbacks"
+        class="p-6 w-72 md:w-52 lg:w-full bg-[#110101] mx-auto rounded-xl"
+      >
+        <div class="flex flex-row justify-end items-center">
+          <span class="text-5xl text-yellow-500 font-bold">”</span>
+        </div>
+        <div class="mt-4">
+          <p class="text-yellow-500 text-left text-lg">
+            {{ feedback }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="border-b-2 border-gray-500">
+    <div class="flex flex-col justify-center items-center py-4">
+      <p
+        class="text-xl md:text-3xl lg:text-5xl uppercase text-center text-[#110101] font-bold drop-shadow-lg"
+      >
+        WANT TO PLACE AN ORDER?
+      </p>
+      <button
+        (click)="routeToCategory('discounted-cakes')"
+        type="button"
+        class="text-lg text-[#FFF] bg-[#FF0000] text-center rounded-3xl font-semibold drop-shadow-lg p-2 no-underline"
+      >
+        CHOOSE A CAKE NOW
+      </button>
     </div>
   </div>
 </div>
