@@ -27,7 +27,10 @@ export class AdminLayoutComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    this.currentUser = this.auth.currentUser;
+    this.currentUser = await this.auth.currentUser;
+    if (!this.currentUser) {
+      this.router.navigate(['/cakes']);
+    }
     this.menu = [
       { title: 'Add Cake', route: 'add-cake', icon: 'ri-add-box-fill' },
       {

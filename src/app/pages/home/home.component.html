@@ -244,8 +244,9 @@
     </div>
   </div>
 
+  <!-- SMALL DEVICES -->
   <div class="block lg:hidden">
-    <div class="grid grid-cols-3 gap-3 my-4 px-10">
+    <div class="grid grid-cols-3 gap-3 my-4 px-2">
       <div class="col-span-3">
         <h4 class="title card-title fw-bold mb-2">Discounted Cakes</h4>
       </div>
@@ -258,8 +259,8 @@
           <div class="inline-block mb-2">
             <img
               src="{{ cake.imageURL }}"
-              alt=""
-              class="cursor-pointer w-[200px] md:w-[200px] lg:w-[200px] h-[70px] md:h-[180px] lg:h-[180px] rounded-lg lg:rounded-3xl"
+              alt="{{cake.cakeName}}"
+              class="cursor-pointer w-[200px] h-[100px] rounded-lg"
               (click)="openOrderModal(cake, orderModal)"
             />
           </div>
@@ -267,9 +268,9 @@
             <a
               (click)="openOrderModal(cake, orderModal)"
               title="{{ cake.cakeName }}"
-              class="text-xs md:text-xl lg:text-2xl font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
+              class="text-lg font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
               >{{
-                cake.cakeName.length < 10
+                cake.cakeName.length < 8
                   ? cake.cakeName
                   : cake.cakeName.substring(0, 7) + "..."
               }}</a
@@ -282,18 +283,18 @@
             <span
               type="button"
               (click)="openOrderModal(cake, orderModal)"
-              class="text-[10px] lg:text-sm text-[#FFF] bg-[#FF0000] rounded-3xl text-left lg:text-center font-semibold drop-shadow-lg lg:px-2 no-underline"
+              class="text-[10px] text-[#FFF] bg-[#FF0000] rounded-3xl text-left font-semibold drop-shadow-lg py-1 px-2 no-underline"
             >
               BUY NOW
             </span>
           </div>
         </div>
       </ng-container>
-      <div class="col-span-3 flex items-center justify-center my-5">
+      <div class="col-span-3 flex items-center justify-center my-4">
         <button
           (click)="routeToCategory('discounted-cakes')"
           type="button"
-          class="text-[10px] lg:text-lg text-[#FFF] bg-[#FF0000] text-center rounded-3xl font-normal lg:font-semibold drop-shadow-lg px-2 no-underline"
+          class="text-[10px] text-[#FFF] bg-[#FF0000] text-center rounded-3xl font-semibold drop-shadow-lg px-2 no-underline"
         >
           VIEW ALL DISCOUNTED CAKES<i
             class="ri-arrow-down-s-fill text-center text-2xl text-[#110101]"
@@ -302,7 +303,7 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-3 gap-3 my-4 px-10">
+    <div class="grid grid-cols-3 gap-3 my-4 px-2">
       <div class="col-span-3">
         <h4 class="title card-title fw-bold mb-2 text-[#1E0202]">
           Celebration Cakes
@@ -317,8 +318,8 @@
           <div class="mb-2">
             <img
               src="{{ cake.imageURL }}"
-              alt=""
-              class="cursor-pointer w-[200px] md:w-[200px] lg:w-[200px] h-[70px] md:h-[180px] lg:h-[180px] rounded-lg lg:rounded-3xl"
+              alt="{{cake.cakeName}}"
+              class="cursor-pointer w-[200px] h-[100px] rounded-lg lg:rounded-3xl"
               (click)="openOrderModal(cake, orderModal)"
             />
           </div>
@@ -326,9 +327,9 @@
             <a
               (click)="openOrderModal(cake, orderModal)"
               title="{{ cake.cakeName }}"
-              class="text-xs md:text-xl font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
+              class="text-lg font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
               >{{
-                cake.cakeName.length < 10
+                cake.cakeName.length < 8
                   ? cake.cakeName
                   : cake.cakeName.substring(0, 7) + "..."
               }}</a
@@ -341,18 +342,18 @@
             <span
               type="button"
               (click)="openOrderModal(cake, orderModal)"
-              class="text-[10px] md:text-lg text-[#FFF] bg-[#FF0000] rounded-3xl text-left lg:text-center font-semibold drop-shadow-lg px-1 md:p-3 no-underline"
+              class="text-[10px] text-[#FFF] bg-[#FF0000] rounded-3xl text-left font-semibold drop-shadow-lg py-1 px-2 no-underline"
             >
               BUY NOW
             </span>
           </div>
         </div>
       </ng-container>
-      <div class="col-span-3 flex items-center justify-center my-5">
+      <div class="col-span-3 flex items-center justify-center my-4">
         <button
           (click)="routeToCategory('celebration-cakes')"
           type="button"
-          class="text-[10px] lg:text-lg text-[#FFF] bg-[#FF0000] text-center rounded-3xl font-normal lg:font-semibold drop-shadow-lg px-2 no-underline"
+          class="text-[10px] text-[#FFF] bg-[#FF0000] text-center rounded-3xl font-semibold drop-shadow-lg px-2 no-underline"
         >
           VIEW ALL CELEBRATION CAKES<i
             class="ri-arrow-down-s-fill text-center text-2xl text-[#110101]"
@@ -361,7 +362,7 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-3 gap-3 my-4 px-10">
+    <div class="grid grid-cols-3 gap-3 my-4 px-2">
       <div class="col-span-3">
         <h4 class="title card-title fw-bold mb-2 text-[#1E0202]">
           Kiddies Cakes
@@ -374,8 +375,8 @@
           <div class="inline-block mb-2">
             <img
               src="{{ cake.imageURL }}"
-              alt=""
-              class="cursor-pointer w-[200px] md:w-[200px] lg:w-[200px] h-[70px] md:h-[180px] lg:h-[180px] rounded-lg lg:rounded-3xl"
+              alt="{{cake.cakeName}}"
+              class="cursor-pointer w-[200px] h-[100px] rounded-lg"
               (click)="openOrderModal(cake, orderModal)"
             />
           </div>
@@ -383,9 +384,9 @@
             <a
               (click)="openOrderModal(cake, orderModal)"
               title="{{ cake.cakeName }}"
-              class="text-sm lg:text-2xl font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
+              class="text-lg font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
               >{{
-                cake.cakeName.length < 10
+                cake.cakeName.length < 8
                   ? cake.cakeName
                   : cake.cakeName.substring(0, 7) + "..."
               }}</a
@@ -398,7 +399,7 @@
             <span
               type="button"
               (click)="openOrderModal(cake, orderModal)"
-              class="text-[10px] lg:text-sm text-[#FFF] bg-[#FF0000] rounded-3xl text-left lg:text-center font-semibold drop-shadow-lg px-1 lg:px-3 no-underline"
+              class="text-[10px] text-[#FFF] bg-[#FF0000] rounded-3xl text-left font-semibold drop-shadow-lg py-1 px-2 no-underline"
             >
               BUY NOW
             </span>
@@ -409,7 +410,7 @@
         <button
           (click)="routeToCategory('kiddies-cakes')"
           type="button"
-          class="text-[10px] lg:text-lg text-[#FFF] bg-[#FF0000] text-center rounded-3xl font-normal lg:font-semibold drop-shadow-lg px-2 no-underline"
+          class="text-[10px] text-[#FFF] bg-[#FF0000] text-center rounded-3xl font-semibold drop-shadow-lg px-2 no-underline"
         >
           VIEW ALL KIDDIES CAKES<i
             class="ri-arrow-down-s-fill text-center text-2xl text-[#110101]"
@@ -418,7 +419,7 @@
       </div>
     </div>
 
-    <div class="grid grid-cols-3 gap-3 my-4 px-10">
+    <div class="grid grid-cols-3 gap-3 my-4 px-2">
       <div class="col-span-3">
         <h4 class="title card-title fw-bold mb-2 text-[#1E0202]">
           Plant Based Cakes
@@ -433,8 +434,8 @@
           <div class="inline-block mb-2">
             <img
               src="{{ cake.imageURL }}"
-              alt=""
-              class="cursor-pointer w-[200px] md:w-[200px] lg:w-[200px] h-[70px] md:h-[180px] lg:h-[180px] rounded-lg lg:rounded-3xl"
+              alt="{{cake.cakeName}}"
+              class="cursor-pointer w-[200px] h-[100px] rounded-lg"
               (click)="openOrderModal(cake, orderModal)"
             />
           </div>
@@ -442,9 +443,9 @@
             <a
               (click)="openOrderModal(cake, orderModal)"
               title="{{ cake.cakeName }}"
-              class="text-sm lg:text-2xl font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
+              class="text-lg font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
               >{{
-                cake.cakeName.length < 10
+                cake.cakeName.length < 8
                   ? cake.cakeName
                   : cake.cakeName.substring(0, 7) + "..."
               }}</a
@@ -457,18 +458,18 @@
             <span
               type="button"
               (click)="openOrderModal(cake, orderModal)"
-              class="text-[10px] lg:text-sm text-[#FFF] bg-[#FF0000] rounded-3xl text-left lg:text-center font-semibold drop-shadow-lg px-1 lg:px-3 no-underline"
+              class="text-[10px] text-[#FFF] bg-[#FF0000] rounded-3xl text-left font-semibold drop-shadow-lg px-3 py-1 no-underline"
             >
               BUY NOW
             </span>
           </div>
         </div>
       </ng-container>
-      <div class="col-span-3 flex items-center justify-center my-5">
+      <div class="col-span-3 flex items-center justify-center my-4">
         <button
           (click)="routeToCategory('plant-based-cakes')"
           type="button"
-          class="text-[10px] lg:text-lg text-[#FFF] bg-[#FF0000] text-center rounded-3xl font-normal lg:font-semibold drop-shadow-lg px-2 no-underline"
+          class="text-[10px] text-[#FFF] bg-[#FF0000] text-center rounded-3xl font-semibold drop-shadow-lg px-2 no-underline"
         >
           VIEW ALL PLANT BASED CAKES<i
             class="ri-arrow-down-s-fill text-center text-2xl text-[#110101]"

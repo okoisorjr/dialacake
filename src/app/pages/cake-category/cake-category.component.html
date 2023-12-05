@@ -12,14 +12,16 @@
           <img
             src="{{ cake.imageURL }}"
             alt=""
-            class="cursor-pointer w-[140px] md:w-[200px] lg:w-[200px] h-[70px] md:h-[180px] lg:h-[180px] rounded-3xl lg:rounded-3xl"
+            class="cursor-pointer w-[200px] h-[180px] rounded-3xl lg:rounded-3xl"
             (click)="openOrderModal(cake, orderModal)"
           />
           <a
             (click)="openOrderModal(cake, orderModal)"
             title="{{ cake.cakeName }}"
             class="text-sm lg:text-2xl leading-tight font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
-            >{{ cake.cakeName }}</a
+            >{{ cake.cakeName.length < 15
+              ? cake.cakeName
+              : cake.cakeName.substring(0, 16) + "..." }}</a
           >
         </div>
         <div>
@@ -50,7 +52,7 @@
           <img
             src="{{ cake.imageURL }}"
             alt=""
-            class="cursor-pointer w-[120px] md:w-[180px] h-[100px] md:h-[180px] rounded-lg"
+            class="cursor-pointer w-[200px] md:h-[120px] h-[100px] rounded-lg"
             (click)="openOrderModal(cake, orderModal)"
           />
         </div>

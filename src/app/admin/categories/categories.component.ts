@@ -42,7 +42,7 @@ export class CategoriesComponent implements OnInit {
 
   async ngOnInit() {
     this.category = this.ar.snapshot.paramMap.get('category');
-    this.category = this.category.toUpperCase().replaceAll('-', ' ');
+    /* this.category = this.category.toUpperCase().replaceAll('-', ' '); */
     if (this.category == 'celebration-cakes') {
       this.cakes = await this.cakeService.retrieveCelebrationCakes();
     } else if (this.category == 'discounted-cakes') {
