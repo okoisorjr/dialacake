@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
     this.plantBasedCakes = await this.cakeService.retrievePlantBasedCakes();
     this.kiddiesCakes = await this.cakeService.retrieveKiddiesCakes('home');
 
-    this.cakes = [...this.kiddiesCakes, this.celebrationCakes, ...this.discountedCakes, ...this.plantBasedCakes];
+    this.cakes = [...this.kiddiesCakes, ...this.celebrationCakes, ...this.discountedCakes, ...this.plantBasedCakes];
     /* this.cakeService.fetchAllCakes().subscribe((value) => {
       value.map((cake) => {
         if (cake.category == 'DISCOUNTED CAKES') {

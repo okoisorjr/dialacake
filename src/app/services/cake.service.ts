@@ -24,7 +24,7 @@ export class CakeService {
   celebrationCakeRef = collection(this.firestore, 'celebration-cakes');
   discountedCakeRef = collection(this.firestore, 'discounted-cakes');
   kiddiesCakeRef = collection(this.firestore, 'kiddies-cakes');
-  platnBasedCakeRef = collection(this.firestore, 'plant-based-cakes');
+  plantBasedCakeRef = collection(this.firestore, 'plant-based-cakes');
 
   constructor(
     private http: HttpClient,
@@ -76,7 +76,7 @@ export class CakeService {
 
   createPlantBasedCake(new_cake: Cakes) {
     
-    addDoc(this.platnBasedCakeRef, {
+    addDoc(this.plantBasedCakeRef, {
       ...new_cake,
       document_owner: this.auth.currentUser?.uid,
     })
@@ -90,7 +90,7 @@ export class CakeService {
 
   async retrieveCelebrationCakes(page?: string) {
     let cakes: any[] = [];
-    let q: any;
+    let q;
     // retrieve all cakes
     if(page == 'home'){
       q = query(this.celebrationCakeRef, limit(4));
@@ -100,22 +100,27 @@ export class CakeService {
     
     let retrieved_cakes = await getDocsFromServer(q);
     retrieved_cakes.forEach((document) => {
-      cakes.push({ doc_id: document.id, ...document });
+      cakes.push({ doc_id: document.id, ...document.data() });
     });
     console.log(cakes);
     return cakes;
   }
 
-  async retrieveDiscountedCakes() {
+  async retrieveDiscountedCakes(page?: string) {
     let cakes: any[] = [];
-
+    let q;
     // retrieve all cakes
-    const q = query(this.discountedCakeRef);
+    if(page == 'home'){
+      q = query(this.discountedCakeRef, limit(4));
+    }else{
+      q = query(this.discountedCakeRef);
+    }
+    
     let retrieved_cakes = await getDocsFromServer(q);
     retrieved_cakes.forEach((document) => {
       cakes.push({ doc_id: document.id, ...document.data() });
     });
-    //console.log(cakes);
+    console.log(cakes);
     return cakes;
   }
 
@@ -137,16 +142,21 @@ export class CakeService {
     return cakes;
   }
 
-  async retrievePlantBasedCakes() {
+  async retrievePlantBasedCakes(page?: string) {
     let cakes: any[] = [];
-
+    let q;
     // retrieve all cakes
-    const q = query(this.platnBasedCakeRef);
+    if(page == 'home'){
+      q = query(this.plantBasedCakeRef, limit(4));
+    }else{
+      q = query(this.plantBasedCakeRef);
+    }
+    
     let retrieved_cakes = await getDocsFromServer(q);
     retrieved_cakes.forEach((document) => {
       cakes.push({ doc_id: document.id, ...document.data() });
     });
-    //console.log(cakes);
+    console.log(cakes);
     return cakes;
   }
 
