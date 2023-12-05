@@ -74,11 +74,7 @@
           Celebration Cakes
         </h4>
       </div>
-      <ng-container
-        *ngFor="
-          let cake of celebrationCakes | slice : celebrationCakes.length - 4
-        "
-      >
+      <ng-container *ngFor="let cake of celebrationCakes">
         <div class="flex flex-col justify-center col-span-1">
           <div class="mb-2">
             <img
@@ -135,9 +131,7 @@
           Kiddies Cakes
         </h4>
       </div>
-      <ng-container
-        *ngFor="let cake of kiddiesCakes"
-      >
+      <ng-container *ngFor="let cake of kiddiesCakes">
         <div class="flex flex-col justify-center col-span-1">
           <div class="inline-block mb-2">
             <img
@@ -295,9 +289,7 @@
           </div>
         </div>
       </ng-container>
-      <div
-        class="col-span-3 flex items-center justify-center my-5"
-      >
+      <div class="col-span-3 flex items-center justify-center my-5">
         <button
           (click)="routeToCategory('discounted-cakes')"
           type="button"
@@ -356,9 +348,7 @@
           </div>
         </div>
       </ng-container>
-      <div
-        class="col-span-3 flex items-center justify-center my-5"
-      >
+      <div class="col-span-3 flex items-center justify-center my-5">
         <button
           (click)="routeToCategory('celebration-cakes')"
           type="button"
@@ -415,9 +405,7 @@
           </div>
         </div>
       </ng-container>
-      <div
-        class="col-span-3 flex items-center justify-center my-5"
-      >
+      <div class="col-span-3 flex items-center justify-center my-5">
         <button
           (click)="routeToCategory('kiddies-cakes')"
           type="button"
@@ -476,9 +464,7 @@
           </div>
         </div>
       </ng-container>
-      <div
-        class="col-span-3 flex items-center justify-center my-5"
-      >
+      <div class="col-span-3 flex items-center justify-center my-5">
         <button
           (click)="routeToCategory('plant-based-cakes')"
           type="button"
