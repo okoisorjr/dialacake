@@ -22,13 +22,20 @@ export class AdminLayoutComponent implements OnInit {
 
   constructor(
     private orderService: OrderService,
-    private auth: Auth,
+    public auth: Auth,
     private router: Router
   ) {}
 
   async ngOnInit() {
-    this.currentUser = await this.auth.currentUser;
-    if (!this.currentUser) {
+    this.currentUser = this.auth.onAuthStateChanged((user): any => {
+      if (user) {
+        return user;
+      } else {
+        return null;
+      }
+    });
+
+    if (this.auth.currentUser == null) {
       this.router.navigate(['/cakes']);
     }
     this.menu = [

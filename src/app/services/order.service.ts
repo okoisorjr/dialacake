@@ -9,6 +9,7 @@ import {
   where,
   getDocsFromServer,
   query,
+  getDocs,
 } from '@angular/fire/firestore';
 import { Order } from '../pages/models/order';
 
@@ -63,6 +64,27 @@ export class OrderService {
         orders.push(document.data());
       });
     }
+    return orders;
+  }
+
+  async filterOrders(deliveryStatus: string, user_id?: string) {
+    let orders: any[] = [];
+    let q;
+
+    if (user_id) {
+      q = query(
+        this.ordersRef,
+        where('deliveryStatus', '==', deliveryStatus),
+        where('user_id', '==', this.auth.currentUser?.uid)
+      );
+    } else {
+      q = query(this.ordersRef, where('deliveryStatus', '==', deliveryStatus));
+    }
+    let retrieved_orders = await getDocs(q);
+    retrieved_orders.forEach((doc) => {
+      orders.push({ doc_id: doc.id, ...doc.data() });
+    });
+
     return orders;
   }
 }

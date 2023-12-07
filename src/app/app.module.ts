@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FlutterwaveModule } from 'flutterwave-angular-v3';
 import { HttpClientModule } from '@angular/common/http';
-import { NgbModule, NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthModule } from './auth/auth.module';
 import { PagesModule } from './pages/pages.module';
 import { AdminModule } from './admin/admin.module';
+
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 
@@ -15,9 +17,7 @@ import { environment } from 'src/environments/environment.prod';
 import { AppLayoutModule } from './app-layout/app-layout.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -28,11 +28,12 @@ import { AppLayoutModule } from './app-layout/app-layout.module';
     PagesModule,
     AdminModule,
     NgbDropdownModule,
+    AuthModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

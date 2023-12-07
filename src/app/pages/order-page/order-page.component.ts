@@ -19,23 +19,22 @@ import { Firestore, doc, getDoc } from '@angular/fire/firestore';
 @Component({
   selector: 'app-order-page',
   templateUrl: './order-page.component.html',
-  styleUrls: ['./order-page.component.css']
+  styleUrls: ['./order-page.component.css'],
 })
 export class OrderPageComponent implements OnInit {
-
   @Input() selectedCake!: any;
   @Output() sendPaymentStatus = new EventEmitter();
   @Output() dismissModal = new EventEmitter();
 
   new_order: Order = new Order();
   layers: string[] = ['SINGLE', 'DOUBLE'];
-  flavours: string[] = [
-    'Vanilla',
-    'Chocolate',
-    'Red-Velvet',
-    'Vanilla & Chocolate',
-    'Vanilla & Red-Velvet',
-    'Chocolate & Red-Velvet',
+  flavours: any[] = [
+    { flavour: 'Vanilla', price: 0 },
+    { flavour: 'Chocolate', price: 1500 },
+    { flavour: 'Red-Velvet', price: 2000 },
+    { flavour: 'Vanilla & Chocolate', price: 3000 },
+    { flavour: 'Vanilla & Red-Velvet', price: 3000 },
+    { flavour: 'Chocolate & Red-Velvet', price: 3500 },
   ];
   layer: number = 1;
 
@@ -47,7 +46,10 @@ export class OrderPageComponent implements OnInit {
 
   customizations: any;
 
-  meta = { counsumer_id: this.auth.currentUser?.uid, cake_ordered: this.selectedCake?.cakeName };
+  meta = {
+    counsumer_id: this.auth.currentUser?.uid,
+    cake_ordered: this.selectedCake?.cakeName,
+  };
 
   constructor(
     private userService: UserService,
@@ -92,22 +94,28 @@ export class OrderPageComponent implements OnInit {
     }
     this.flutterwave.closePaymentModal(5);
   }
-  makePayment() {
-    let paymentData: InlinePaymentOptions = {
-      public_key: environment.FLUTTER_PUBLIC_API_KEY,
-      tx_ref: this.generateReference(),
-      amount: this.new_order.grandPrice,
-      currency: 'NGN',
-      payment_options: 'card,ussd',
-      redirect_url: '',
-      meta: this.meta,
-      customer: this.customerDetails,
-      customizations: this.customizations,
-      callback: this.makePaymentCallback,
-      onclose: this.closedPaymentModal,
-      callbackContext: this,
-    };
-    this.flutterwave.inlinePay(paymentData);
+  makePayment(loginModal: any) {
+    if (this.auth.currentUser == null || this.auth.currentUser == undefined) {
+      this.modalService.dismissAll();
+      this.modalService.open(loginModal, { centered: true, size: 'sm' });
+    } else {
+      let paymentData: InlinePaymentOptions = {
+        public_key: environment.FLUTTER_PUBLIC_API_KEY,
+        tx_ref: this.generateReference(),
+        amount: this.new_order.grandPrice,
+        currency: 'NGN',
+        payment_options: 'card,ussd',
+        redirect_url: '',
+        meta: this.meta,
+        customer: this.customerDetails,
+        customizations: this.customizations,
+        callback: this.makePaymentCallback,
+        onclose: this.closedPaymentModal,
+        callbackContext: this,
+      };
+      this.orderService.retrieveAllOrders();
+      this.flutterwave.inlinePay(paymentData);
+    }
   }
   closedPaymentModal(): void {
     console.log('payment is closed');
@@ -121,6 +129,7 @@ export class OrderPageComponent implements OnInit {
   async ngOnInit() {
     //console.log(this.selectedCake);
     this.new_order.grandPrice = this.selectedCake.price;
+    this.new_order.layers = 'SINGLE';
     let user_detail = (
       await getDoc(doc(this.firestore, `users/${this.auth.currentUser?.uid}`))
     ).data();
@@ -155,8 +164,7 @@ export class OrderPageComponent implements OnInit {
     if (layer == 'DOUBLE') {
       this.new_order.layers = layer;
       this.layer = 2;
-      this.new_order.grandPrice =
-        this.new_order.grandPrice * this.layer;
+      this.new_order.grandPrice = this.new_order.grandPrice * this.layer;
       //console.log(this.new_order.grandPrice);
     } else if (layer == 'SINGLE' && this.new_order.layers == 'DOUBLE') {
       this.new_order.layers = layer;
@@ -173,11 +181,18 @@ export class OrderPageComponent implements OnInit {
 
   addBirthdayCard() {
     this.new_order.birthdayCard = !this.new_order.birthdayCard;
-    console.log(this.new_order.birthdayCard);
+    if (this.new_order.birthdayCard) {
+      this.new_order.grandPrice + 1000;
+    } else {
+      this.new_order.grandPrice - 1000;
+    }
+  }
+
+  pickFlavour(flavour: string) {
+    this.new_order.flavour = flavour;
   }
 
   closeModal() {
     this.dismissModal.emit();
   }
-
 }

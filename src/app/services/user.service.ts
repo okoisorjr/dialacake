@@ -27,7 +27,11 @@ export class UserService {
     private http: HttpClient,
     private auth: Auth,
     private firestore: Firestore
-  ) {}
+  ) {
+    this.auth.beforeAuthStateChanged((user) => {
+      this.user = user;
+    });
+  }
 
   async loginUser(user: any) {
     const result = await signInWithEmailAndPassword(

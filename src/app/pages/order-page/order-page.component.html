@@ -35,8 +35,9 @@
           <p class="text-gray-500 text-sm lg:text-lg">
             {{ selectedCake.description }}
           </p>
+
           <div>
-            <form #orderForm="ngForm" (ngSubmit)="makePayment()">
+            <form #orderForm="ngForm" (ngSubmit)="makePayment(loginModal)">
               <div class="row">
                 <div>
                   <label class="font-semibold sm:text-sm">Layers</label>
@@ -46,8 +47,12 @@
                     class="form-select my-2"
                     (change)="updatePrice(layer.value)"
                   >
-                    <option value="" disabled selected>Choose layers</option>
-                    <option *ngFor="let layer of layers" value="{{ layer }}">
+                    <option value="" disabled>Choose layers</option>
+                    <option
+                      *ngFor="let layer of layers"
+                      value="{{ layer }}"
+                      [selected]="layer == 'SINGLE'"
+                    >
                       {{ layer }}
                     </option>
                   </select>
@@ -69,16 +74,28 @@
                   <label class="font-semibold">Flavour</label>
                   <select
                     name="layer"
+                    #flavour
                     class="form-select my-2"
-                    [(ngModel)]="new_order.flavour"
+                    (change)="pickFlavour(flavour.value)"
                     ngModel
                   >
                     <option value="" disabled selected>Choose flavour</option>
                     <option
                       *ngFor="let flavour of flavours"
+                      [disabled]="
+                        (flavour.flavour == 'Vanilla & Chocolate' &&
+                          new_order.layers == 'SINGLE') ||
+                        (flavour.flavour == 'Vanilla & Red-Velvet' &&
+                          new_order.layers == 'SINGLE') ||
+                        (flavour.flavour == 'Chocolate & Red-Velvet' &&
+                          new_order.layers == 'SINGLE')
+                      "
                       value="{{ flavour }}"
                     >
-                      {{ flavour }}
+                      {{ flavour.flavour
+                      }}{{
+                        flavour.price > 0 ? " (₦" + flavour.price + ")" : ""
+                      }}
                     </option>
                   </select>
                 </div>
@@ -96,7 +113,7 @@
                       [checked]="new_order.birthdayCard"
                     />
                     <label class="form-check-label" for="shuffleItems">
-                      Birthday Card
+                      Birthday Card (₦1000)
                     </label>
                   </div>
 
@@ -108,7 +125,7 @@
                       [(ngModel)]="new_order.wine"
                     />
                     <label class="form-check-label" for="shuffleItems">
-                      Wine
+                      Wine (₦1000)
                     </label>
                   </div>
                 </div>
@@ -146,7 +163,9 @@
                 <div *ngIf="new_order.cakeCount > 0" class="my-2">
                   <label class="font-semibold text-lg lg:text-2xl"
                     >Grand Total:
-                    <span class="">NGN {{ new_order.grandPrice }}</span></label
+                    <span class=""
+                      >₦{{ new_order.grandPrice.toLocaleString() }}</span
+                    ></label
                   >
                 </div>
 
@@ -184,3 +203,7 @@
     </div>
   </div>
 </div>
+
+<ng-template #loginModal let-modal>
+  <app-login></app-login>
+</ng-template>

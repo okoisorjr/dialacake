@@ -20,7 +20,7 @@
   <div class="grid grid-cols-1 gap-2">
     <div *ngIf="orders && orders.length > 0">
       <ng-container *ngFor="let order of orders">
-        <div class="col-span-1">
+        <div class="col-span-1 my-2">
           <div class="bg-[#FFF] rounded-2xl h-[fit-content] grid grid-cols-4">
             <div class="col-span-4 lg:col-span-1 my-3 lg:my-5">
               <img
@@ -100,10 +100,9 @@
         id="Capa_1"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
-        width="200px"
-        height="200px"
         viewBox="0 0 902.86 902.86"
         xml:space="preserve"
+        class="w-[70px] h-[70px] lg:w-[200px] lg:h-[200px]"
       >
         <g>
           <g>
@@ -116,7 +115,7 @@
           </g>
         </g>
       </svg>
-      <p class="text-3xl text-center font-bold text-[#110101] font-mono">
+      <p class="text-lg md:text-2xl lg:text-3xl text-center font-bold text-[#110101] font-mono">
         There are currently no new orders!
       </p>
     </div>
