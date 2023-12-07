@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AdminModule } from '../admin/admin.module';
-
+import { AuthModule } from '../auth/auth.module';
+import { ArchwizardModule } from 'angular-archwizard';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { HomeComponent } from './home/home.component';
 import { ClientOrdersComponent } from './client-orders/client-orders.component';
 import { CakeCategoryComponent } from './cake-category/cake-category.component';
 import { OrderPageComponent } from './order-page/order-page.component';
+
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { OrderPageComponent } from './order-page/order-page.component';
     NgbDropdownModule,
     NgbModalModule,
     FormsModule,
-    AdminModule
+    AdminModule,
+    AuthModule,
+    ArchwizardModule,
   ]
 })
 export class PagesModule { }

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms'
+import { AuthModule } from '../auth/auth.module';
 
 import { AppLayoutRoutingModule } from './app-layout-routing.module';
 import { LayoutComponent } from './layout/layout.component';
@@ -23,7 +24,9 @@ import { NavbarComponent } from './navbar/navbar.component';
     CommonModule,
     AppLayoutRoutingModule,
     NgbDropdownModule,
-    FormsModule
-  ]
+    FormsModule,
+    AuthModule
+  ],
+  exports: [TopbarComponent]
 })
 export class AppLayoutModule { }

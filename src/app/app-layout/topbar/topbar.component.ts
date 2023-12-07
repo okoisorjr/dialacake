@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Login } from 'src/app/pages/models/login';
 import { Register } from 'src/app/pages/models/register';
 import { MenuItem } from '../admin-layout/admin-layout.component';
@@ -25,10 +25,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./topbar.component.css'],
 })
 export class TopbarComponent implements OnInit {
-  submitted: boolean = false;
-  loginUser: Login = new Login();
-  newUser: Register = new Register();
-  user$: any;
+  @Input() signin!: boolean;
+
   menu: MenuItem[] = [];
   showSideMenu: boolean = false;
   myOrders: any[] = [];
@@ -42,14 +40,19 @@ export class TopbarComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private userService: UserService,
-    private auth: Auth,
-    private firestore: Firestore,
+    public auth: Auth,
     private orderService: OrderService,
     private router: Router
   ) {}
 
   async ngOnInit() {
-    this.currentUser = this.auth.currentUser;
+    this.auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.currentUser = user;
+      } else {
+        this.currentUser = null;
+      }
+    });
     this.myOrders = await this.orderService.retrieveAllClientsOrders();
     this.menu = [
       {
@@ -77,11 +80,6 @@ export class TopbarComponent implements OnInit {
     /* console.log(this.myOrders); */
   }
 
-  toggleSideMenu() {
-    this.showSideMenu = !this.showSideMenu;
-    console.log(this.showSideMenu);
-  }
-
   openLoginModal(loginModal: any) {
     this.modalService.open(loginModal, { centered: true, size: 'sm' });
   }
@@ -90,49 +88,19 @@ export class TopbarComponent implements OnInit {
     this.modalService.open(registrationModal, { centered: true, size: 'sm' });
   }
 
-  signUp(regForm: any) {
-    createUserWithEmailAndPassword(
-      this.auth,
-      this.newUser.email,
-      this.newUser.password
-    )
-      .then((result) => {
-        const dbInstance = doc(this.firestore, 'users', result.user.uid);
-        updateProfile(result.user, { displayName: this.newUser.fullname });
-        sendEmailVerification(result.user);
-        setDoc(dbInstance, {
-          ...this.newUser,
-          password: '',
-          id: result.user.uid,
-          createdAt: serverTimestamp(),
-          lastModified: serverTimestamp(),
-        }).then((res) => {
-          this.modalService.dismissAll();
-          this.newUser = new Register();
-        });
-      })
-      .catch((error) => {
-        this.modalService.dismissAll();
-        console.log(error);
-      });
-  }
-
-  async login(loginForm: any) {
-    let currentUser = await this.userService.loginUser(this.loginUser);
-    if (currentUser) {
-      this.ngOnInit();
-      this.loginUser = new Login();
-      this.modalService.dismissAll();
-    }
-
-    /* this.userService.loginUser(this.loginUser).subscribe((value) => {
-      console.log(value);
-    }) */
-  }
-
   async logout() {
     let result = await this.auth.signOut();
+    this.userService.user = null;
     this.ngOnInit();
     this.router.navigate(['/cakes']);
+  }
+
+  dismissAuthModal() {
+    this.modalService.dismissAll();
+  }
+
+  saveLoggedInUser($event: any) {
+    this.currentUser = $event;
+    this.ngOnInit();
   }
 }

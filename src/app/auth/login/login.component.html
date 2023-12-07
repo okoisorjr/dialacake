@@ -1,0 +1,62 @@
+<div class="card-header flex items-center justify-between py-2 px-3">
+  <h4 class="card-title fw-bold">Account Login</h4>
+  <button
+    type="button"
+    style="background-color: #f3db00"
+    class="btn btn-sm btn-icon"
+    data-bs-dismiss="modal"
+    (click)="dismissModal(); dismissAll();"
+  >
+    <i class="ri-close-line fs-5"></i>
+  </button>
+</div>
+<div class="modal-body">
+  <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" novalidate>
+    <div style="background-color: #aaad0e" class="p-3">
+      <div class="">
+        <input
+          type="email"
+          name="email"
+          class="form-control mb-3"
+          placeholder="Enter your email"
+          required
+          [(ngModel)]="loginUser.email"
+          ngModel
+        />
+      </div>
+
+      <div class="mt-3">
+        <input
+          type="password"
+          name="password"
+          class="form-control mb-3"
+          placeholder="Enter your password"
+          required
+          [(ngModel)]="loginUser.password"
+          ngModel
+        />
+      </div>
+
+      <div>
+        <button
+          [disabled]="submitted"
+          type="submit"
+          class="w-100 btn shadow-md fw-bold cursor-pointer"
+          style="background-color: #faff05"
+          data-bs-dismiss="modal"
+        >
+          Log in
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer flex flex-col items-center justify-center">
+  <p class="text-sm">Don't have an account?</p>
+  <br />
+  <a class="text-sm text-[#aaad0e] cursor-pointer" (click)="openRegisterModal(signupModal)">Sign Up</a>
+</div>
+
+<ng-template #signupModal let-modal>
+  <app-register></app-register>
+</ng-template>

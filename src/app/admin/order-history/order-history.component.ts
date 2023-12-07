@@ -32,7 +32,7 @@ export class OrderHistoryComponent implements OnInit {
     }); */
   }
 
-  setFilterOption(filterOption: string) {
-    this.orderService;
+  async setFilterOption(filterOption: string) {
+    this.orders = await this.orderService.filterOrders(filterOption);
   }
 }

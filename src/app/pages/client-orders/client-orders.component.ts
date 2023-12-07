@@ -29,7 +29,10 @@ export class ClientOrdersComponent implements OnInit {
     });
   }
 
-  setFilterOption(filterOption: string) {
-    this.orderService;
+  async setFilterOption(filterOption: string) {
+    this.orders = await this.orderService.filterOrders(
+      filterOption,
+      this.auth.currentUser?.uid
+    );
   }
 }
