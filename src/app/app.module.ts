@@ -15,12 +15,9 @@ import { AppComponent } from './app.component';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from 'src/environments/environment.prod';
 import { AppLayoutModule } from './app-layout/app-layout.module';
-import { ArchwizardModule } from 'angular-archwizard';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,12 +29,11 @@ import { ArchwizardModule } from 'angular-archwizard';
     AdminModule,
     NgbDropdownModule,
     AuthModule,
-    ArchwizardModule,
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -4,7 +4,6 @@ import { NgbDropdownModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { AdminModule } from '../admin/admin.module';
 import { AuthModule } from '../auth/auth.module';
-import { ArchwizardModule } from 'angular-archwizard';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { HomeComponent } from './home/home.component';
@@ -29,7 +28,6 @@ import { OrderPageComponent } from './order-page/order-page.component';
     FormsModule,
     AdminModule,
     AuthModule,
-    ArchwizardModule,
   ]
 })
 export class PagesModule { }
