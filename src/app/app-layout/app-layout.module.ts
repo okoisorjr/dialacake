@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormsModule } from '@angular/forms'
+import { FormsModule } from '@angular/forms';
 import { AuthModule } from '../auth/auth.module';
 
 import { AppLayoutRoutingModule } from './app-layout-routing.module';
@@ -11,22 +11,21 @@ import { FooterComponent } from './footer/footer.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
-
 @NgModule({
   declarations: [
     LayoutComponent,
     AdminLayoutComponent,
     FooterComponent,
     TopbarComponent,
-    NavbarComponent
+    NavbarComponent,
   ],
   imports: [
     CommonModule,
     AppLayoutRoutingModule,
     NgbDropdownModule,
     FormsModule,
-    AuthModule
+    AuthModule,
   ],
-  exports: [TopbarComponent]
+  exports: [TopbarComponent, FooterComponent],
 })
-export class AppLayoutModule { }
+export class AppLayoutModule {}

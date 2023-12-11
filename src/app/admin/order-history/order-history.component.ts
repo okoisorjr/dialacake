@@ -15,7 +15,9 @@ export class OrderHistoryComponent implements OnInit {
   constructor(private orderService: OrderService) {}
 
   async ngOnInit() {
+    this.filterOptions = [];
     let m = Object.keys(DeliveryStatus);
+    this.filterOptions.push('ALL_ORDERS');
     m.forEach((status) => {
       this.filterOptions.push(status);
     });
@@ -33,6 +35,14 @@ export class OrderHistoryComponent implements OnInit {
   }
 
   async setFilterOption(filterOption: string) {
+    if (filterOption == 'ALL_ORDERS') {
+      return this.ngOnInit();
+    }
     this.orders = await this.orderService.filterOrders(filterOption);
+  }
+
+  updateOrder(doc_id: string, status: string) {
+    this.orderService.updateOrder(doc_id, status);
+    this.ngOnInit();
   }
 }

@@ -43,8 +43,8 @@ export class HomeComponent implements OnInit {
     this.celebrationCakes = await this.cakeService.retrieveCelebrationCakes(
       'home'
     );
-    this.discountedCakes = await this.cakeService.retrieveDiscountedCakes();
-    this.plantBasedCakes = await this.cakeService.retrievePlantBasedCakes();
+    this.discountedCakes = await this.cakeService.retrieveDiscountedCakes('home');
+    this.plantBasedCakes = await this.cakeService.retrievePlantBasedCakes('home');
     this.kiddiesCakes = await this.cakeService.retrieveKiddiesCakes('home');
 
     this.cakes = [

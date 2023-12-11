@@ -525,3 +525,13 @@
     (dismissModal)="modal.close('Close click')"
   ></app-order-page>
 </ng-template>
+
+<ng-template #imageHighlightModal let-modal>
+  <div class="modal-body p-5" class="max-w-100">
+    <img
+      src="{{ selectedCake.imageURL }}"
+      alt=""
+      style="width: 100%; height: 100%; border-radius: 20px"
+    />
+  </div>
+</ng-template>

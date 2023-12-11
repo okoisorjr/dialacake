@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CakeCategoryComponent } from './cake-category/cake-category.component';
 import { ClientOrdersComponent } from './client-orders/client-orders.component';
 import { HomeComponent } from './home/home.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   /* { path: '', redirectTo: 'cakes', pathMatch: 'full' }, */
@@ -14,6 +15,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}

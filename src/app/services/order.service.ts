@@ -10,8 +10,13 @@ import {
   getDocsFromServer,
   query,
   getDocs,
+  updateDoc,
+  doc,
+  orderBy,
+  getCountFromServer,
 } from '@angular/fire/firestore';
 import { Order } from '../pages/models/order';
+import { DeliveryStatus } from '../shared/delivery-status';
 
 @Injectable({
   providedIn: 'root',
@@ -38,14 +43,20 @@ export class OrderService {
       });
   }
 
+  async getTotalOrdersCount() {
+    const snapshot = await getCountFromServer(this.ordersRef);
+
+    return snapshot.data().count;
+  }
+
   async retrieveAllOrders(): Promise<any> {
     let orders: any[] = [];
 
     // retrieve all orders
-    const q = query(this.ordersRef);
+    const q = query(this.ordersRef, orderBy('deliveryStatus', 'desc'));
     let retrieved_orders = await getDocsFromServer(q);
     retrieved_orders.forEach((document) => {
-      orders.push(document.data());
+      orders.push({ doc_id: document.id, ...document.data() });
     });
 
     return orders;
@@ -86,5 +97,12 @@ export class OrderService {
     });
 
     return orders;
+  }
+
+  async updateOrder(doc_id: string, status: string) {
+    let result = await updateDoc(doc(this.firestore, `orders/${doc_id}`), {
+      deliveryStatus: status,
+    });
+    return result;
   }
 }

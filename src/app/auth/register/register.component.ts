@@ -22,6 +22,7 @@ import { Register } from 'src/app/pages/models/register';
 export class RegisterComponent implements OnInit {
   @Output() closeModal = new EventEmitter();
   @Output() loginClose = new EventEmitter();
+  @Output() isLoggedIn = new EventEmitter();
 
   submitted: boolean = false;
   newUser: Register = new Register();
@@ -56,6 +57,7 @@ export class RegisterComponent implements OnInit {
           this.successMessage =
             'Congratulations! Account created successfully.';
           this.newUser = new Register();
+          this.isLoggedIn.emit();
         });
       })
       .catch((error) => {

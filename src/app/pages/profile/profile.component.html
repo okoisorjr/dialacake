@@ -1,0 +1,175 @@
+<div class="container sticky-top bg-[#FAFF00]">
+  <div class="flex justify-between">
+    <div class="">
+      <a routerLink="/cakes"
+        ><img
+          src="assets/images/logo.png"
+          class="w-[80px] h-[80px] mt-2 lg:w-[100px] lg:h-[80px] cursor-pointer"
+          alt="dial-a-cake logo"
+      /></a>
+    </div>
+    <div class="mt-3 cursor-pointer">
+      <div class="flex justify-end">
+        <div class="grid grid-cols-3 gap-2 relative">
+          <span class="border-r-2 border-black pr-2">
+            <a routerLink="/cakes" class="no-underline text-[#110101]"
+              ><i class="ri-home-4-line text-2xl"></i
+            ></a>
+          </span>
+          <span class="border-r-2 border-black"
+            ><a
+              routerLink="/cakes/my-orders"
+              class="no-underline text-[#110101]"
+              ><i class="ri-truck-line text-2xl"></i></a
+          ></span>
+          <span class=""><i class="ri-phone-fill text-2xl"></i></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <app-navbar></app-navbar> -->
+</div>
+<div class="container">
+  <div class="row mb-2">
+    <div class="flex justify-between items-center">
+      <h3 class="text-xl font-bold text-[#110101]">My Profile</h3>
+    </div>
+  </div>
+  <div *ngIf="currentUser" class="row">
+    <div class="grid grid-cols-3 gap-3 items-center">
+      <div
+        class="card px-3 col-span-3 md:col-span-2 lg:col-span-2 rounded-2xl bg-[#FFF] p-3"
+      >
+        <form
+          #userProfileForm="ngForm"
+          (ngSubmit)="updateProfile(userProfileForm)"
+        >
+          <div class="my-2 col-span-2">
+            <label class="font-semibold mb-2" for="cakeName">Fullname</label>
+            <input
+              type="text"
+              placeholder="Enter Fullname"
+              class="form-control"
+              name="fullname"
+              [(ngModel)]="currentUser.fullname"
+              disabled
+              ngModel
+            />
+          </div>
+
+          <div class="my-2 col-span-1">
+            <label class="font-semibold mb-2" for="email">Email</label>
+            <input
+              type="text"
+              placeholder="Enter email"
+              class="form-control"
+              name="email"
+              disabled
+              [(ngModel)]="currentUser.email"
+              ngModel
+            />
+          </div>
+
+          <div class="my-2 col-span-1">
+            <label class="font-semibold mb-2" for="phone">phone</label>
+            <input
+              type="text"
+              placeholder="Enter phone no"
+              class="form-control"
+              name="phone"
+              [(ngModel)]="currentUser.phone"
+              ngModel
+            />
+          </div>
+
+          <div class="my-2 col-span-1">
+            <label class="font-semibold mb-2" for="phone">User ID</label>
+            <input
+              type="text"
+              class="form-control"
+              name="id"
+              [(ngModel)]="currentUser.id"
+              disabled
+              ngModel
+            />
+          </div>
+
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="bg-[#110101] text-yellow-500 text-lg font-semibold p-2 rounded-lg"
+            >
+              <i class="ri-save-line mx-2"></i>Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div
+        class="card px-3 col-span-3 md:col-span-1 lg:col-span-1 rounded-2xl bg-[#FFF] p-2"
+      >
+        <form #addressForm="ngForm" (ngSubmit)="submitAddress(addressForm)">
+          <div class="my-1 col-span-1">
+            <label class="font-semibold mb-2" for="country">Country</label>
+            <input
+              type="text"
+              placeholder="Enter country"
+              class="form-control"
+              name="country"
+              [(ngModel)]="currentUser.country"
+              ngModel
+            />
+          </div>
+
+          <div class="my-1 col-span-1">
+            <label class="font-semibold mb-2" for="email">State</label>
+            <input
+              type="text"
+              placeholder="Enter state"
+              class="form-control"
+              name="state"
+              [(ngModel)]="currentUser.state"
+              ngModel
+            />
+          </div>
+
+          <div class="my-1 col-span-1">
+            <label class="font-semibold mb-2" for="email">City/Area</label>
+            <input
+              type="text"
+              placeholder="Enter city/area"
+              class="form-control"
+              name="city"
+              [(ngModel)]="currentUser.city"
+              ngModel
+            />
+          </div>
+
+          <div class="my-1">
+            <label class="font-semibold mb-2" for="">Street</label>
+
+            <textarea
+              type="text"
+              class="form-control"
+              name="street"
+              placeholder="Enter your street"
+              [(ngModel)]="currentUser.street"
+              ngModel
+            ></textarea>
+          </div>
+
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              class="bg-yellow-500 text-[#110101] text-lg font-semibold p-1 rounded-lg"
+            >
+              <i class="ri-save-line mx-2"></i>Save Address
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <app-footer></app-footer>
+</div>

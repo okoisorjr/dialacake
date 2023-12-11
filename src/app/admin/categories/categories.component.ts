@@ -28,6 +28,8 @@ export class CategoriesComponent implements OnInit {
   uploading: boolean = false;
   file!: File;
   filename: string = '';
+  selectedCake_img_URL!: string;
+  totalCakesInCollection!: number;
 
   constructor(
     private ar: ActivatedRoute,
@@ -43,6 +45,8 @@ export class CategoriesComponent implements OnInit {
   async ngOnInit() {
     this.category = this.ar.snapshot.paramMap.get('category');
     /* this.category = this.category.toUpperCase().replaceAll('-', ' '); */
+    this.totalCakesInCollection =
+      await this.cakeService.getCollectionCountFromDB(this.category);
     if (this.category == 'celebration-cakes') {
       this.cakes = await this.cakeService.retrieveCelebrationCakes();
     } else if (this.category == 'discounted-cakes') {
@@ -57,30 +61,17 @@ export class CategoriesComponent implements OnInit {
     }); */
   }
 
-  filterOrders() {
+  async filterCakes() {
     let filteredOrders: any = [];
-    if (this.orders.length == 0) {
-      this.orders = this.allOrders;
-    }
     if (this.searchOrder) {
-      for (let i = 0; i <= this.searchOrder.length; i++) {
-        this.allOrders.filter((order) => {
-          if (
-            order.name.startsWith(this.searchOrder) //&&
-            //!filteredOrders.includes(order)
-          ) {
-            filteredOrders.push(order);
-          }
-        });
-      }
+      let result = await this.cakeService.filterCake(
+        this.category,
+        this.searchOrder
+      );
+    } else {
+      return;
     }
     this.allOrders = filteredOrders;
-    if (this.allOrders.length === 0) {
-      this.allOrders = this.orders;
-      this.orders = [];
-    }
-
-    console.log(filteredOrders);
   }
 
   openEditModal(cake_id: string, cake: Cakes, editModal: any) {
@@ -92,6 +83,10 @@ export class CategoriesComponent implements OnInit {
   openDeleteModal(cake_id: string, deleteModal: any) {
     this.selectedCake_id = cake_id;
     this.modalService.open(deleteModal, { centered: true, size: 'md' });
+  }
+
+  openImageHighlightModal(imageHighlightModal: any) {
+    this.modalService.open(imageHighlightModal, { centered: true, size: 'md' });
   }
 
   async deleteCake() {
@@ -108,25 +103,28 @@ export class CategoriesComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  onFileSelected($event: any) {
+  async onFileSelected($event: any, cake: any) {
+    cake.updatingImg = true;
     this.file = $event.target.files[0];
-    this.uploadImage();
-  }
 
-  async uploadImage() {
-    this.uploading = true;
-    this.filename = this.file.name;
-    const formData = new FormData();
-    formData.append('file', this.file);
-    let result = (await this.cakeService.uploadImage(this.file)).Location;
-    if (result) {
-      this.editCake.imageURL = result;
-      this.uploading = false;
-    }
+    let result = await this.cakeService.updateImage(
+      this.category,
+      this.file,
+      cake.doc_id
+    );
+    cake.updatingImg = false;
+    this.ngOnInit();
+    Swal.fire({
+      title: 'Congratulations!',
+      text: 'The image has been updated successfully.',
+      icon: 'success',
+      timer: 2000,
+    });
   }
 
   async submit(editCakeForm: any) {
     let result = await this.cakeService.updateCake(
+      this.category,
       this.selectedCake_id,
       this.editCake
     );
@@ -139,4 +137,8 @@ export class CategoriesComponent implements OnInit {
     this.ngOnInit();
     this.modalService.dismissAll();
   }
+
+  /* paginate(event: any) {
+    this.cakeService.nextPage(this.category);
+  } */
 }

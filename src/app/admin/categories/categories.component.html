@@ -2,7 +2,8 @@
   <div class="grid grid-cols-2">
     <div class="col-span-1">
       <h3 class="text-lg lg:text-xl font-bold text-[#110101]">
-        {{ category | titlecase }} [{{ cakes.length }}]
+        {{ category | titlecase }}
+        {{ totalCakesInCollection && "[" + totalCakesInCollection + "]" }}
       </h3>
     </div>
     <div class="col-span-1">
@@ -17,7 +18,7 @@
           class="w-100 border-[#000] p-2 rounded-md outline-none text-xs lg:text-lg font-bold text-[#000]"
         />
         <span
-          (click)="filterOrders()"
+          (click)="filterCakes()"
           class="flex bg-[#000] rounded-tr-md rounded-br-md items-center"
           ><i
             class="ri-search-line text-sm lg:text-2xl text-yellow-500 px-2"
@@ -33,7 +34,7 @@
         <ng-container *ngFor="let cake of cakes">
           <div class="grid grid-cols-3 gap-3 items-center col-12">
             <div
-              class="my-3 col-span-3 lg:col-span-1 w-[200px] h-[180px] rounded-3xl relative"
+              class="my-3 col-span-3 lg:col-span-1 w-[200px] h-[180px] rounded-3xl cursor-pointer relative"
               [ngStyle]="
                 cake.imageURL && {
                   'background-image': ' url(' + cake.imageURL + ')',
@@ -54,7 +55,7 @@
                 name="file"
                 type="file"
                 accept=".png, .jpg, .webp"
-                (change)="onFileSelected($event)"
+                (change)="onFileSelected($event, cake)"
               />
               <div class="absolute left-0 right-0 bottom-0">
                 <button
@@ -63,7 +64,8 @@
                   (click)="file.click()"
                   class="focus:outline-none text-yellow-500 bg-[#110101] bg-opacity-50 font-semibold w-100 text-sm lg:text-lg p-2 rounded-b-3xl me-2"
                 >
-                  <i class="ri-image-edit-line me-2"></i>Change
+                  <i class="ri-image-edit-line me-2"></i
+                  >{{ cake.updatingImg ? "Updating..." : "Update" }}
                 </button>
               </div>
             </div>
@@ -101,6 +103,8 @@
       </ngx-simplebar>
     </div>
   </div>
+
+  <!-- <p-paginator [rows]="10" [totalRecords]="totalCakesInCollection" [pageLinkSize]=3 (onPageChange)="paginate($event)"></p-paginator> -->
 </div>
 
 <ng-template #editModal let-modal>
@@ -267,7 +271,17 @@
       class="focus:outline-none text-yellow-500 bg-[#110101] font-semibold rounded-lg text-sm lg:text-lg px-4 py-2 me-2"
     >
       <i class="ri-delete-bin-line me-2"></i
-      >{{ !submitted ? "Delete" : "Deleting..." }}
+      >{{ submitted ? "Deleting..." : "Delete" }}
     </button>
+  </div>
+</ng-template>
+
+<ng-template #imageHighlightModal let-modal>
+  <div class="modal-body p-5" class="max-w-100">
+    <img
+      src="{{ selectedCake_img_URL }}"
+      alt=""
+      style="width: 100%; height: 100%; border-radius: 20px"
+    />
   </div>
 </ng-template>

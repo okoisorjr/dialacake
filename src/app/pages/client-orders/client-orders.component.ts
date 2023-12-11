@@ -16,6 +16,7 @@ export class ClientOrdersComponent implements OnInit {
   constructor(private orderService: OrderService, private auth: Auth) {}
 
   async ngOnInit() {
+    this.filterOptions.push('ALL_ORDERS');
     let m = Object.keys(DeliveryStatus);
     m.forEach((status) => {
       this.filterOptions.push(status);
@@ -30,6 +31,9 @@ export class ClientOrdersComponent implements OnInit {
   }
 
   async setFilterOption(filterOption: string) {
+    if(filterOption == 'ALL_ORDERS'){
+      return this.ngOnInit();
+    }
     this.orders = await this.orderService.filterOrders(
       filterOption,
       this.auth.currentUser?.uid
