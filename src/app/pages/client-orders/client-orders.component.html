@@ -84,6 +84,24 @@
                 <span class="text-sm">{{ order.user_phone }}</span></span
               >
             </div> -->
+              <div class="flex justify-end">
+                <span
+                  [ngClass]="{
+                    'bg-green-900': order.deliveryStatus == 'COMPLETED',
+                    'bg-yellow-500': order.deliveryStatus == 'DISPATCHED',
+                    'bg-red-900': order.deliveryStatus == 'PENDING'
+                  }"
+                  class="text-white text-xs lg:text-sm p-1 rounded-md"
+                >
+                  <span *ngIf="order.deliveryStatus == 'COMPLETED'"
+                    >Delivered</span
+                  >
+                  <span *ngIf="order.deliveryStatus == 'DISPATCHED'"
+                    >Dispatched</span
+                  >
+                  <span *ngIf="order.deliveryStatus == 'PENDING'">Pending</span>
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -114,7 +132,9 @@
           </g>
         </g>
       </svg>
-      <p class="text-lg md:text-2xl lg:text-3xl text-center font-bold text-[#110101] font-mono">
+      <p
+        class="text-lg md:text-2xl lg:text-3xl text-center font-bold text-[#110101] font-mono"
+      >
         You currently have no orders!
       </p>
     </div>

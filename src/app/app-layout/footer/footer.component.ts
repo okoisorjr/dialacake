@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.css'],
 })
 export class FooterComponent implements OnInit {
-  email: string = 'probaker@gmail.com';
+  email: string = 'probakercompany@gmail.com';
 
   constructor() {}
 

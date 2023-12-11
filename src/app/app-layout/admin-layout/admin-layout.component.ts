@@ -65,6 +65,11 @@ export class AdminLayoutComponent implements OnInit {
         route: 'order-history',
         icon: 'ri-shopping-cart-fill',
       },
+      {
+        title: 'Users',
+        route: 'users',
+        icon: 'ri-group-fill'
+      }
     ];
     this.orders = await this.orderService.retrieveAllOrders();
     this.orders.forEach((order) => {

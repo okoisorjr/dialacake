@@ -12,12 +12,13 @@
       <div class="grid gap-2 grid-cols-4">
         <div class="hidden md:col-span-1 md:block lg:block lg:col-span-1">
           <button
+            (click)="openLocationsModal(locationsModal)"
             class="bg-[#FFF] w-100 text-[#000] py-2 rounded-md border border-black drop-shadow-md"
           >
             <i
               class="ri-map-pin-range-line text-xs lg:text-lg mx-1 bg-[#51D686] p-2 rounded"
             ></i>
-            <span class="font-bold text-xs lg:text-lg mr-2">LOCATION</span>
+            <span class="font-bold text-xs lg:text-lg mr-2">LOCATIONS</span>
           </button>
         </div>
         <div
@@ -29,7 +30,7 @@
             class="border-[#000] w-100 p-2 text-xs lg:text-lg rounded-md outline-none font-bold text-[#000]"
           />
           <span class="flex bg-[#000] rounded-tr-md rounded-br-md items-center"
-            ><i class="ri-search-line text-lg lg:text-2xl text-[#FFF] px-3"></i
+            ><i class="ri-search-line text-lg lg:text-2xl text-[#FFF] px-2"></i
           ></span>
         </div>
       </div>
@@ -54,14 +55,18 @@
                 ngbDropdownMenu
               >
                 <!-- item-->
-                <h6 class="dropdown-header">
+                <h6 (click)="gotoProfile()" class="dropdown-header">
                   {{ auth.currentUser.displayName }}<br /><span
                     class="text-gray-500 text-sm font-semibold"
                     >{{ auth.currentUser.email }}</span
                   >
                 </h6>
                 <div class="dropdown-divider"></div>
-                <div *ngIf="auth.currentUser && admins.includes(auth.currentUser.uid)">
+                <div
+                  *ngIf="
+                    auth.currentUser && admins.includes(auth.currentUser.uid)
+                  "
+                >
                   <a routerLink="/admin" class="dropdown-item cursor-pointer"
                     ><i class="ri-layout-grid-line mr-2"></i>Dashboard</a
                   >
@@ -187,7 +192,7 @@
                 ngbDropdownMenu
               >
                 <!-- item-->
-                <h6 class="dropdown-header">
+                <h6 (click)="gotoProfile()" class="dropdown-header">
                   {{ currentUser.displayName }}<br /><span
                     class="text-gray-500 text-sm font-semibold"
                     >{{ currentUser.email }}</span
@@ -266,7 +271,9 @@
               ></a
             ></span
           >
-          <span class=""><i class="ri-phone-fill text-2xl"></i></span>
+          <span class="" title="+2348023403135"
+            ><i class="ri-phone-fill text-2xl"></i
+          ></span>
         </div>
       </div>
     </div>
@@ -283,5 +290,10 @@
 
 <!-- CREATE ACCOUNT MODAL-->
 <ng-template #registrationModal let-modal>
-  <app-register (closeModal)="dismissAuthModal()"></app-register>
+  <app-register
+    (loggedIn)="refreshTopBar()"
+    (closeModal)="dismissAuthModal()"
+  ></app-register>
 </ng-template>
+
+<ng-template #locationsModal let-modal> </ng-template>

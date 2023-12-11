@@ -80,6 +80,10 @@ export class TopbarComponent implements OnInit {
     /* console.log(this.myOrders); */
   }
 
+  gotoProfile() {
+    this.router.navigate(['/profile'])
+  }
+
   openLoginModal(loginModal: any) {
     this.modalService.open(loginModal, { centered: true, size: 'sm' });
   }
@@ -88,11 +92,19 @@ export class TopbarComponent implements OnInit {
     this.modalService.open(registrationModal, { centered: true, size: 'sm' });
   }
 
+  openLocationsModal(locationsModal: any) {
+    this.modalService.open(locationsModal, { centered: true, size: 'md' });
+  }
+
   async logout() {
     let result = await this.auth.signOut();
     this.userService.user = null;
     this.ngOnInit();
     this.router.navigate(['/cakes']);
+  }
+
+  refreshTopBar() {
+    this.ngOnInit();
   }
 
   dismissAuthModal() {

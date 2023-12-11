@@ -12,14 +12,16 @@ import {
   getDoc,
   getDocsFromServer,
   query,
+  setDoc,
+  updateDoc,
 } from '@angular/fire/firestore';
-import { User } from '../pages/models/user';
+import { Address, User } from '../pages/models/user';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  currentUser: User = new User();
+  currentUser: any;
   user: any;
   currentUserCredentials: any;
   usersRef = collection(this.firestore, 'users');
@@ -43,23 +45,28 @@ export class UserService {
       this.user = result.user;
       this.currentUserCredentials =
         GoogleAuthProvider.credentialFromResult(result);
-      this.currentUser.id = result.user.uid;
-      this.currentUser.fullname = result.user.displayName;
-      this.currentUser.email = result.user.email;
       this.currentUser.verified = result.user.emailVerified;
-      this.getUser();
     }
+    this.currentUser = await this.fetchUserAccountDetails();
     return this.auth.currentUser;
   }
 
-  async getUser() {
+  async fetchUserAccountDetails() {
+    const docRef = doc(this.firestore, `users/${this.auth.currentUser?.uid}`);
+    let user = (await getDoc(docRef)).data();
+    this.currentUser = user;
+
+    return user;
+  }
+
+  /* async getUser() {
     const userRef = doc(this.firestore, `users/${this.currentUser.id}`);
     let user_detail = (await getDoc(userRef)).data();
 
     if (user_detail) {
       this.currentUser.phone = user_detail['phone'];
     }
-  }
+  } */
 
   async getAllUsers() {
     let users: any[] = [];
@@ -70,5 +77,22 @@ export class UserService {
     });
 
     return users;
+  }
+
+  async updateUserPhone(data: string) {
+    let result = await updateDoc(
+      doc(this.firestore, `users/${this.auth.currentUser?.uid}`),
+      { phone: data }
+    );
+
+    return result;
+  }
+
+  async saveAddress(userId: string, data: any) {
+    let result = await updateDoc(doc(this.firestore, `users/${userId}`), {
+      ...data,
+    });
+
+    return result;
   }
 }
