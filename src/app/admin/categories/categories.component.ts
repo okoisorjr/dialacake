@@ -96,21 +96,22 @@ export class CategoriesComponent implements OnInit {
     this.modalService.open(imageHighlightModal, { centered: true, size: 'md' });
   }
 
-  async deleteCake() {
+  deleteCake() {
     this.submitted = true;
-    let result = await this.cakeService.deleteCake(this.selectedCake_id);
-    if (result)
-      Swal.fire({
-        title: 'Congratulations!',
-        text: 'You have successfully deleted a cake.',
-        icon: 'success',
-        timer: 2000,
-      });
-    this.submitted = false;
-    this.ngOnInit();
-    this.modalService.dismissAll();
-
-    /* .catch((error) => {
+    this.cakeService
+      .deleteCake(this.category, this.selectedCake_id)
+      .then((res) => {
+        Swal.fire({
+          title: 'Congratulations!',
+          text: 'You have successfully deleted a cake.',
+          icon: 'success',
+          timer: 2000,
+        });
+        this.submitted = false;
+        this.ngOnInit();
+        this.modalService.dismissAll();
+      })
+      .catch((error) => {
         Swal.fire({
           title: 'Congratulations!',
           text: `${error.error.message}`,
@@ -118,7 +119,7 @@ export class CategoriesComponent implements OnInit {
           timer: 2000,
         });
         this.submitted = false;
-      }); */
+      });
   }
 
   async onFileSelected($event: any, cake: any) {
