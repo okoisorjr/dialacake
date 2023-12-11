@@ -249,11 +249,17 @@ export class CakeService {
     return cakes;
   } */
 
-  async deleteCake(doc_id: string) {
+  deleteCake(doc_id: string): any {
     const cakeRef = doc(this.firestore, `cakes/${doc_id}`);
-    let result = await deleteDoc(cakeRef);
-    console.log(result);
-    return result;
+    deleteDoc(cakeRef)
+      .then((res) => {
+        
+        return true;
+      })
+      .catch((error) => {
+        console.log(error);
+        return error;
+      });
   }
 
   async updateCake(category: string, doc_id: string, editCake: Cakes) {
@@ -333,6 +339,7 @@ export class CakeService {
   }
 
   async updateImage(category: string, file: File, doc_id: string) {
+    console.log(category);
     let new_image_url = await this.uploadImage(file);
     if (category == 'celebration-cakes') {
       let result = await updateDoc(
@@ -344,25 +351,25 @@ export class CakeService {
       return result;
     } else if (category == 'discounted-cakes') {
       let result = await updateDoc(
-        doc(this.firestore, `celebration-cakes/${doc_id}`),
+        doc(this.firestore, `discounted-cakes/${doc_id}`),
         {
-          imageURL: new_image_url,
+          imageURL: new_image_url.Location,
         }
       );
       return result;
     } else if (category == 'kiddies-cakes') {
       let result = await updateDoc(
-        doc(this.firestore, `celebration-cakes/${doc_id}`),
+        doc(this.firestore, `kiddies-cakes/${doc_id}`),
         {
-          imageURL: new_image_url,
+          imageURL: new_image_url.Location,
         }
       );
       return result;
     } else if (category == 'plant-based-cakes') {
       let result = await updateDoc(
-        doc(this.firestore, `celebration-cakes/${doc_id}`),
+        doc(this.firestore, `plant-based-cakes/${doc_id}`),
         {
-          imageURL: new_image_url,
+          imageURL: new_image_url.Location,
         }
       );
       return result;
