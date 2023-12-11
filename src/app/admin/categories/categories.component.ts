@@ -30,6 +30,7 @@ export class CategoriesComponent implements OnInit {
   filename: string = '';
   selectedCake_img_URL!: string;
   totalCakesInCollection!: number;
+  searchEnabled: boolean = false;
 
   constructor(
     private ar: ActivatedRoute,
@@ -61,18 +62,24 @@ export class CategoriesComponent implements OnInit {
     }); */
   }
 
-  async filterCakes() {
+  filterCakes() {
+    this.searchEnabled = true;
+    let cakes = this.cakes;
     let filteredOrders: any = [];
     if (this.searchOrder) {
-      let result = await this.cakeService.filterCake(
-        this.category,
-        this.searchOrder
-      );
+      this.cakes.filter((cake) => {
+        if (
+          cake.cakeName.toLowerCase().includes(this.searchOrder.toLowerCase())
+        ) {
+          filteredOrders.push(cake);
+        }
+      });
     } else {
-      return;
     }
-    this.allOrders = filteredOrders;
+    this.cakes = filteredOrders;
   }
+
+  clearSearch() {}
 
   openEditModal(cake_id: string, cake: Cakes, editModal: any) {
     this.editCake = cake;
@@ -92,50 +99,75 @@ export class CategoriesComponent implements OnInit {
   async deleteCake() {
     this.submitted = true;
     let result = await this.cakeService.deleteCake(this.selectedCake_id);
-    Swal.fire({
-      title: 'Congratulations!',
-      text: 'You have successfully deleted a cake.',
-      icon: 'success',
-      timer: 2000,
-    });
+    if (result)
+      Swal.fire({
+        title: 'Congratulations!',
+        text: 'You have successfully deleted a cake.',
+        icon: 'success',
+        timer: 2000,
+      });
     this.submitted = false;
     this.ngOnInit();
     this.modalService.dismissAll();
+
+    /* .catch((error) => {
+        Swal.fire({
+          title: 'Congratulations!',
+          text: `${error.error.message}`,
+          icon: 'success',
+          timer: 2000,
+        });
+        this.submitted = false;
+      }); */
   }
 
   async onFileSelected($event: any, cake: any) {
     cake.updatingImg = true;
     this.file = $event.target.files[0];
 
-    let result = await this.cakeService.updateImage(
-      this.category,
-      this.file,
-      cake.doc_id
-    );
-    cake.updatingImg = false;
-    this.ngOnInit();
-    Swal.fire({
-      title: 'Congratulations!',
-      text: 'The image has been updated successfully.',
-      icon: 'success',
-      timer: 2000,
-    });
+    this.cakeService
+      .updateImage(this.category, this.file, cake.doc_id)
+      .then((res) => {
+        cake.updatingImg = false;
+        this.ngOnInit();
+        Swal.fire({
+          title: 'Congratulations!',
+          text: 'The image has been updated successfully.',
+          icon: 'success',
+          timer: 2000,
+        });
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: 'Congratulations!',
+          text: `${error.error.message}`,
+          icon: 'success',
+          timer: 2000,
+        });
+      });
   }
 
   async submit(editCakeForm: any) {
-    let result = await this.cakeService.updateCake(
-      this.category,
-      this.selectedCake_id,
-      this.editCake
-    );
-    Swal.fire({
-      title: 'Congratulations!',
-      text: 'You have successfully updated a cake',
-      timer: 2000,
-      icon: 'success',
-    });
-    this.ngOnInit();
-    this.modalService.dismissAll();
+    this.cakeService
+      .updateCake(this.category, this.selectedCake_id, this.editCake)
+      .then((res) => {
+        Swal.fire({
+          title: 'Congratulations!',
+          text: 'You have successfully updated a cake',
+          timer: 2000,
+          icon: 'success',
+        });
+        this.ngOnInit();
+        this.modalService.dismissAll();
+      })
+      .catch((error) => {
+        Swal.fire({
+          title: 'Congratulations!',
+          text: `${error.error.message}`,
+          timer: 2000,
+          icon: 'success',
+        });
+      });
   }
 
   /* paginate(event: any) {

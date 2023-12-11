@@ -19,7 +19,7 @@
         />
         <span
           (click)="filterCakes()"
-          class="flex bg-[#000] rounded-tr-md rounded-br-md items-center"
+          class="flex bg-[#000] rounded-tr-md rounded-br-md items-center cursor-pointer"
           ><i
             class="ri-search-line text-sm lg:text-2xl text-yellow-500 px-2"
           ></i
@@ -173,6 +173,7 @@
             name="category"
             class="form-select"
             [(ngModel)]="editCake.category"
+            disabled
           >
             <option disabled selected>CHOOSE A CATEGORY</option>
             <option
