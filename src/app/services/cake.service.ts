@@ -249,17 +249,11 @@ export class CakeService {
     return cakes;
   } */
 
-  deleteCake(doc_id: string): any {
-    const cakeRef = doc(this.firestore, `cakes/${doc_id}`);
-    deleteDoc(cakeRef)
-      .then((res) => {
-        
-        return true;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
+  async deleteCake(category: string, doc_id: string) {
+    const cakeRef = doc(this.firestore, `${category}/${doc_id}`);
+    let result = await deleteDoc(cakeRef);
+
+    return result;
   }
 
   async updateCake(category: string, doc_id: string, editCake: Cakes) {
