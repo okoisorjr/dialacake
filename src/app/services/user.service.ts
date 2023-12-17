@@ -48,7 +48,7 @@ export class UserService {
       this.currentUser.verified = result.user.emailVerified;
     }
     this.currentUser = await this.fetchUserAccountDetails();
-    return this.auth.currentUser;
+    return this.currentUser;
   }
 
   async fetchUserAccountDetails() {

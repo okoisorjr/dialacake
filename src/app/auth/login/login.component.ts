@@ -26,12 +26,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   async login(loginForm: any) {
-    let currentUser = await this.userService.loginUser(this.loginUser);
-    if (currentUser) {
+    this.userService.loginUser(this.loginUser).then((user) => {
+      this.currentUser = this.userService.currentUser;
       this.loginUser = new Login();
       this.sendLoggedInUser();
       this.modalService.dismissAll();
-    }
+    });
 
     /* this.userService.loginUser(this.loginUser).subscribe((value) => {
       console.log(value);

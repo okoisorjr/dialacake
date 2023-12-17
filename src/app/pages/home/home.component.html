@@ -28,11 +28,9 @@
               (click)="openOrderModal(cake, orderModal)"
               title="{{ cake.cakeName }}"
               class="text-xs lg:text-2xl font-bold drop-shadow-md text-[#110101] no-underline cursor-pointer"
-              >{{
-                cake.cakeName.length < 10
-                  ? cake.cakeName
-                  : cake.cakeName.substring(0, 7) + "..."
-              }}</a
+              >{{ cake.cakeName.length < 15
+                ? cake.cakeName
+                : cake.cakeName.substring(0, 16) + "..." }}</a
             ><br />
             <span class="text-[#110101] text-xs font-bold"
               >₦ {{ cake.price.toLocaleString() }}</span
