@@ -6,17 +6,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from 'src/app/services/user.service';
 import { OrderService } from 'src/app/services/order.service';
 import {
-  Auth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  sendEmailVerification,
+  Auth
 } from '@angular/fire/auth';
-import {
-  doc,
-  Firestore,
-  setDoc,
-  serverTimestamp,
-} from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 @Component({
@@ -36,6 +27,7 @@ export class TopbarComponent implements OnInit {
     'lIzjPKkP63a3BNUAv2oQcwDmmuv2',
     'WX6l3krc81U44ZN0L8yfcTjIXXU2',
   ];
+  showSuccessfulRegistrationMessage: boolean = false;
 
   constructor(
     private modalService: NgbModal,
@@ -48,12 +40,20 @@ export class TopbarComponent implements OnInit {
   async ngOnInit() {
     this.auth.onAuthStateChanged((user) => {
       if (user) {
-        this.currentUser = user;
+        this.userService.fetchUserAccountDetails().then((user) => {
+          this.currentUser = user;
+        });
       } else {
         this.currentUser = null;
       }
     });
-    this.myOrders = await this.orderService.retrieveAllClientsOrders();
+
+    // Fetch clients
+    this.orderService.retrieveAllClientsOrders().then((orders) => {
+      this.myOrders = orders;
+    }).catch((error) => {
+      console.log(error);
+    });
     this.menu = [
       {
         title: 'Celebration Cakes',
@@ -77,7 +77,6 @@ export class TopbarComponent implements OnInit {
       },
       /* { title: 'My Orders', route: 'my-orders', icon: 'ri-shopping-cart-fill' }, */
     ];
-    /* console.log(this.myOrders); */
   }
 
   gotoProfile() {
@@ -103,7 +102,10 @@ export class TopbarComponent implements OnInit {
     this.router.navigate(['/cakes']);
   }
 
-  refreshTopBar() {
+  refreshTopBar(event?: any) {
+    if(event){
+      this.showSuccessfulRegistrationMessage = true;
+    }
     this.ngOnInit();
   }
 

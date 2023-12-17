@@ -10,6 +10,7 @@ import { AdminLayoutComponent } from './admin-layout/admin-layout.component';
 import { FooterComponent } from './footer/footer.component';
 import { TopbarComponent } from './topbar/topbar.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     FooterComponent,
     TopbarComponent,
     NavbarComponent,
+    AlertComponent,
   ],
   imports: [
     CommonModule,
@@ -26,6 +28,6 @@ import { NavbarComponent } from './navbar/navbar.component';
     FormsModule,
     AuthModule,
   ],
-  exports: [TopbarComponent, FooterComponent],
+  exports: [TopbarComponent, FooterComponent, AlertComponent],
 })
 export class AppLayoutModule {}

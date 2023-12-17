@@ -50,15 +50,15 @@
                 <i class="ri-user-fill text-sm md:text-lg lg:text-xl"></i>
               </a>
               <div
-                *ngIf="auth.currentUser"
+                *ngIf="currentUser != null"
                 class="dropdown-menu dropdown-menu-end"
                 ngbDropdownMenu
               >
                 <!-- item-->
                 <h6 (click)="gotoProfile()" class="dropdown-header">
-                  {{ auth.currentUser.displayName }}<br /><span
+                  {{ currentUser.fullname }}<br /><span
                     class="text-gray-500 text-sm font-semibold"
-                    >{{ auth.currentUser.email }}</span
+                    >{{ currentUser.email }}</span
                   >
                 </h6>
                 <div class="dropdown-divider"></div>
@@ -291,7 +291,7 @@
 <!-- CREATE ACCOUNT MODAL-->
 <ng-template #registrationModal let-modal>
   <app-register
-    (loggedIn)="refreshTopBar()"
+    (loggedIn)="refreshTopBar($event)"
     (closeModal)="dismissAuthModal()"
   ></app-register>
 </ng-template>

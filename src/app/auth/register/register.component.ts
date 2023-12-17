@@ -57,7 +57,7 @@ export class RegisterComponent implements OnInit {
           this.successMessage =
             'Congratulations! Account created successfully.';
           this.newUser = new Register();
-          this.isLoggedIn.emit();
+          this.isLoggedIn.emit(this.successMessage);
         });
       })
       .catch((error) => {
